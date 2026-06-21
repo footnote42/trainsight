@@ -1,0 +1,56 @@
+# Environment
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Data (keep samples only — add explicit exceptions if needed)
+data/raw/
+data/processed/
+data/external/
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+!data/samples/
+
+# Models
+models/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.joblib
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Kaggle credentials
+kaggle.json
+*.json
+!package.json
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Ruff cache
+.ruff_cache/
