@@ -4,7 +4,7 @@
 IN PROGRESS — Design phase complete. FR.md written (Stage 5). Ready for implementation.
 
 ## Next
-Write mock data: hand-author `catalogue.json` (~35 courses with target_roles + SME), `workday.csv` (~150 staff, grades A1–DS, management chains), and seeded submission records split into tuned set (scenarios 1–5) and held-out set (H1–H3). Nothing agentic runs until data exists; the split is what keeps evaluation defensible.
+Write Stage 6 — `TR.md` (Technical Requirements): MCP tool signatures, FastAPI endpoint contracts, data schemas (catalogue, workday, submission), agent system prompt structure derived from SAFETY.md, Cloud Run configuration. No architecture decisions should be made during implementation — TR locks them first.
 
 ## Open actions
 1. **Time-period drift** — UX-DESIGN Screen 1 says window closes "31 March 2026"; briefing/CLI use "2025-Q4". Pick one timeline across all docs before writing mock data.
