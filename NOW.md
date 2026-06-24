@@ -48,6 +48,14 @@ Claude Code resumes at Step 8.13 (deploy_agents.sh) and 8.14 (Dockerfile.web + d
 
 None.
 
+## Design Decision — PII Demo
+
+workday.csv now includes name/email/age_band columns (added 2026-06-24). These are
+intentional mock PII. workday_server.py (Step 8.4) must explicitly exclude them when
+constructing PersonProfile — the exclusion IS the demonstration. security.py (Step 8.2)
+adds _pii_guard() as defence-in-depth text scanner. TR.md updated with pii_guard_triggered
+event type and _assert_no_pii audit logging spec.
+
 ## Last session
 
 2026-06-24 — Stage 7 mock data + Stage 8.0 scaffold committed (ba6c53b, 24 files). Repo pushed to GitHub as `trainsight`. CLAUDE.md and NOW.md updated.
