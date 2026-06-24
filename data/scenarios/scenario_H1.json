@@ -1,0 +1,35 @@
+{
+  "scenario_id": "H1",
+  "description": "HELD-OUT — Clean individual — Data Analyst (Corporate Services, B2), 2 appropriate compliance/safety courses, no challenges expected. DO NOT use to tune agent prompts.",
+  "person": {
+    "person_id": "WD-H101",
+    "lead_technical_role": "Data Analyst",
+    "job_family": "Corporate Services",
+    "grade": "B2",
+    "management_chain": ["WD-H110", "WD-H120"],
+    "direct_reports": [],
+    "has_direct_reports": false,
+    "department": "Analytics"
+  },
+  "submission_mode": "self",
+  "basket": [
+    {
+      "person_id": "WD-H101",
+      "course_id": "DPGD-001",
+      "reason": "Maintaining Capability",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H101",
+      "course_id": "FIRE-001",
+      "reason": "Resilience",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [],
+  "ground_truth_challenges": []
+}

@@ -1,0 +1,77 @@
+{
+  "scenario_id": "3",
+  "description": "Duplicate detection — Plant Operator requests MEWP-001 already submitted by their line manager in a prior LM submission",
+  "person": {
+    "person_id": "WD-003001",
+    "lead_technical_role": "Plant Operator",
+    "job_family": "Plant Operations",
+    "grade": "B1",
+    "management_chain": ["WD-003010", "WD-003020"],
+    "direct_reports": [],
+    "has_direct_reports": false,
+    "department": "Operations"
+  },
+  "submission_mode": "self",
+  "basket": [
+    {
+      "person_id": "WD-003001",
+      "course_id": "MEWP-001",
+      "reason": "Maintaining Capability",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-003001",
+      "course_id": "HSAW-001",
+      "reason": "Resilience",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [
+    {
+      "submission_id": "TRS-2025-0003",
+      "person_id": "WD-003010",
+      "submitted_by": "lm",
+      "period": "2025-Q4",
+      "department": "Operations",
+      "timestamp": "2025-11-15T09:30:00Z",
+      "status": "submitted",
+      "items": [
+        {
+          "person_id": "WD-003001",
+          "course_id": "MEWP-001",
+          "reason": "Maintaining Capability",
+          "priority": "Medium",
+          "challenge_types_fired": [],
+          "override_justification": null
+        },
+        {
+          "person_id": "WD-003002",
+          "course_id": "MEWP-001",
+          "reason": "Maintaining Capability",
+          "priority": "Medium",
+          "challenge_types_fired": [],
+          "override_justification": null
+        },
+        {
+          "person_id": "WD-003003",
+          "course_id": "MEWP-001",
+          "reason": "Maintaining Capability",
+          "priority": "Medium",
+          "challenge_types_fired": [],
+          "override_justification": null
+        }
+      ],
+      "total_cost": 855.00,
+      "total_ts": 0.00,
+      "resolved_flag_count": 0,
+      "unresolved_flag_count": 0
+    }
+  ],
+  "ground_truth_challenges": [
+    {"type": "duplicate", "course_id": "MEWP-001"}
+  ]
+}

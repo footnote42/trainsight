@@ -1,0 +1,151 @@
+workday_id,lead_technical_role,job_family,grade,management_chain,direct_reports,department
+WD-001001,Systems Engineer,Engineering Operations,B2,WD-001010|WD-001020,,Engineering
+WD-001002,Junior Systems Engineer,Engineering Operations,A2,WD-001010|WD-001001,,Engineering
+WD-001003,Systems Engineer,Engineering Operations,B2,WD-001010|WD-001001,,Engineering
+WD-001004,Senior Systems Engineer,Engineering Operations,C1,WD-001010,WD-001001|WD-001002|WD-001003,Engineering
+WD-001005,Engineering Technician,Engineering Operations,A1,WD-001010|WD-001004,,Engineering
+WD-001006,Systems Engineer,Engineering Operations,B1,WD-001010|WD-001004,,Engineering
+WD-001007,Graduate Engineer,Engineering Operations,A1,WD-001010|WD-001004,,Engineering
+WD-001008,Electrical Engineer,Engineering Operations,B2,WD-001010|WD-001004,,Engineering
+WD-001009,Engineering Inspector,Engineering Operations,B1,WD-001010|WD-001004,,Engineering
+WD-001010,Head of Engineering,Engineering Operations,D1,WD-001020,WD-001004|WD-001011|WD-001012,Engineering
+WD-001011,Senior Electrical Engineer,Engineering Operations,C1,WD-001010,WD-001005|WD-001006|WD-001007,Engineering
+WD-001012,Asset Engineer,Engineering Operations,C1,WD-001010,WD-001008|WD-001009,Engineering
+WD-001020,Director of Infrastructure,Engineering Operations,DS,,"WD-001010,WD-002001,WD-005001",Infrastructure
+WD-002001,Facilities Manager,Facilities Management,C1,WD-002020,WD-002002|WD-002003|WD-002004|WD-002005|WD-002006|WD-002007|WD-002008|WD-002009|WD-002010|WD-002011|WD-002012|WD-002013,Facilities
+WD-002002,Facilities Officer,Facilities Management,A2,WD-002020|WD-002001,,Facilities
+WD-002003,Facilities Coordinator,Facilities Management,B1,WD-002020|WD-002001,,Facilities
+WD-002004,Maintenance Technician,Facilities Management,A1,WD-002020|WD-002001,,Facilities
+WD-002005,Facilities Officer,Facilities Management,B2,WD-002020|WD-002001,,Facilities
+WD-002006,Cleaning Supervisor,Facilities Management,A2,WD-002020|WD-002001,,Facilities
+WD-002007,Maintenance Technician,Facilities Management,A1,WD-002020|WD-002001,,Facilities
+WD-002008,Facilities Coordinator,Facilities Management,B1,WD-002020|WD-002001,,Facilities
+WD-002009,Facilities Officer,Facilities Management,A2,WD-002020|WD-002001,,Facilities
+WD-002010,Security Officer,Facilities Management,A2,WD-002020|WD-002001,,Facilities
+WD-002011,Maintenance Technician,Facilities Management,B1,WD-002020|WD-002001,,Facilities
+WD-002012,Facilities Coordinator,Facilities Management,A2,WD-002020|WD-002001,,Facilities
+WD-002013,Facilities Officer,Facilities Management,A1,WD-002020|WD-002001,,Facilities
+WD-002020,Head of Facilities,Facilities Management,D1,,WD-002001|WD-002021,Facilities
+WD-002021,Facilities Deputy Manager,Facilities Management,C2,WD-002020,WD-002014|WD-002015,Facilities
+WD-002014,Facilities Officer,Facilities Management,B1,WD-002020|WD-002021,,Facilities
+WD-002015,Maintenance Supervisor,Facilities Management,B2,WD-002020|WD-002021,WD-002016|WD-002017,Facilities
+WD-002016,Maintenance Technician,Facilities Management,A2,WD-002020|WD-002021|WD-002015,,Facilities
+WD-002017,Maintenance Technician,Facilities Management,A1,WD-002020|WD-002021|WD-002015,,Facilities
+WD-003001,Plant Operator,Plant Operations,B1,WD-003010|WD-003020,,Operations
+WD-003002,Plant Operator,Plant Operations,A2,WD-003010|WD-003020,,Operations
+WD-003003,Senior Plant Operator,Plant Operations,B2,WD-003010,WD-003001|WD-003002,Operations
+WD-003004,Plant Technician,Plant Operations,A1,WD-003010|WD-003003,,Operations
+WD-003005,Plant Operator,Plant Operations,B1,WD-003010|WD-003003,,Operations
+WD-003006,Control Room Operator,Plant Operations,B2,WD-003010,,Operations
+WD-003007,Plant Operator,Plant Operations,A2,WD-003010,,Operations
+WD-003008,Plant Technician,Plant Operations,A1,WD-003010,,Operations
+WD-003009,Senior Control Room Operator,Plant Operations,C1,WD-003010,WD-003006|WD-003007|WD-003008,Operations
+WD-003010,Plant Operations Manager,Plant Operations,C1,WD-003020,WD-003001|WD-003002|WD-003003|WD-003009,Operations
+WD-003020,Head of Operations,Plant Operations,D1,,WD-003010|WD-003021,Operations
+WD-003021,Deputy Operations Manager,Plant Operations,C2,WD-003020,WD-003011|WD-003012,Operations
+WD-003011,Plant Operator,Plant Operations,B2,WD-003020|WD-003021,,Operations
+WD-003012,Plant Operator,Plant Operations,B1,WD-003020|WD-003021,,Operations
+WD-004001,Business Support Officer,Corporate Services,A2,WD-004010|WD-004020,,Corporate Services
+WD-004002,Business Support Administrator,Corporate Services,A1,WD-004010|WD-004020,,Corporate Services
+WD-004003,Senior Business Support Officer,Corporate Services,B1,WD-004010,WD-004001|WD-004002,Corporate Services
+WD-004004,Office Manager,Corporate Services,B2,WD-004010,WD-004003|WD-004005,Corporate Services
+WD-004005,Executive Assistant,Corporate Services,B1,WD-004010|WD-004004,,Corporate Services
+WD-004006,Data Entry Clerk,Corporate Services,A1,WD-004010,,Corporate Services
+WD-004007,Business Support Officer,Corporate Services,A2,WD-004010,,Corporate Services
+WD-004008,Records Manager,Corporate Services,B2,WD-004010,,Corporate Services
+WD-004009,Communications Officer,Corporate Services,B1,WD-004010,,Corporate Services
+WD-004010,Head of Corporate Services,Corporate Services,C2,WD-004020,WD-004004|WD-004008|WD-004009,Corporate Services
+WD-004020,Director of Corporate Services,Corporate Services,DS,,WD-004010|WD-004030,Corporate Services
+WD-004030,Deputy Director Corporate Services,Corporate Services,D1,WD-004020,WD-004031|WD-004032,Corporate Services
+WD-004031,Finance Manager,Corporate Services,C1,WD-004020|WD-004030,WD-004033|WD-004034,Corporate Services
+WD-004032,HR Manager,HR,C1,WD-004020|WD-004030,WD-004035|WD-004036,HR
+WD-004033,Finance Officer,Corporate Services,B2,WD-004020|WD-004030|WD-004031,,Corporate Services
+WD-004034,Finance Officer,Corporate Services,B1,WD-004020|WD-004030|WD-004031,,Corporate Services
+WD-004035,HR Advisor,HR,B2,WD-004020|WD-004030|WD-004032,,HR
+WD-004036,HR Officer,HR,B1,WD-004020|WD-004030|WD-004032,,HR
+WD-005001,Senior Engineer,Engineering Operations,C2,WD-005020,WD-005002|WD-005003|WD-005004|WD-005005|WD-005006|WD-005007|WD-005008|WD-005009|WD-005010|WD-005011,Engineering
+WD-005002,Structural Engineer,Engineering Operations,B2,WD-005020|WD-005001,,Engineering
+WD-005003,Civil Engineer,Engineering Operations,B1,WD-005020|WD-005001,,Engineering
+WD-005004,Mechanical Engineer,Engineering Operations,B2,WD-005020|WD-005001,,Engineering
+WD-005005,Graduate Engineer,Engineering Operations,A2,WD-005020|WD-005001,,Engineering
+WD-005006,Engineering Technician,Engineering Operations,A1,WD-005020|WD-005001,,Engineering
+WD-005007,Structural Engineer,Engineering Operations,B1,WD-005020|WD-005001,,Engineering
+WD-005008,Civil Engineer,Engineering Operations,B2,WD-005020|WD-005001,,Engineering
+WD-005009,Mechanical Engineer,Engineering Operations,B1,WD-005020|WD-005001,,Engineering
+WD-005010,Engineering Inspector,Engineering Operations,B2,WD-005020|WD-005001,,Engineering
+WD-005011,Graduate Engineer,Engineering Operations,A1,WD-005020|WD-005001,,Engineering
+WD-005020,Chief Engineer,Engineering Operations,D2,,WD-005001|WD-005021,Engineering
+WD-005021,Principal Engineer,Engineering Operations,D1,WD-005020,WD-005022|WD-005023,Engineering
+WD-005022,Lead Structural Engineer,Engineering Operations,C1,WD-005020|WD-005021,WD-005024|WD-005025,Engineering
+WD-005023,Lead Mechanical Engineer,Engineering Operations,C2,WD-005020|WD-005021,WD-005026|WD-005027,Engineering
+WD-005024,Structural Engineer,Engineering Operations,B2,WD-005020|WD-005021|WD-005022,,Engineering
+WD-005025,Structural Engineer,Engineering Operations,B1,WD-005020|WD-005021|WD-005022,,Engineering
+WD-005026,Mechanical Engineer,Engineering Operations,B2,WD-005020|WD-005021|WD-005023,,Engineering
+WD-005027,Mechanical Engineer,Engineering Operations,B1,WD-005020|WD-005021|WD-005023,,Engineering
+WD-H101,Data Analyst,Corporate Services,B2,WD-H110|WD-H120,,Analytics
+WD-H102,Junior Data Analyst,Corporate Services,A2,WD-H110|WD-H101,,Analytics
+WD-H103,Data Analyst,Corporate Services,B1,WD-H110,,Analytics
+WD-H104,Business Intelligence Developer,Corporate Services,B2,WD-H110,,Analytics
+WD-H105,Data Engineer,Corporate Services,B1,WD-H110,,Analytics
+WD-H110,Analytics Manager,Corporate Services,C1,WD-H120,WD-H101|WD-H103|WD-H104|WD-H105,Analytics
+WD-H120,Head of Digital and Analytics,Corporate Services,D1,,WD-H110|WD-H130,Analytics
+WD-H130,Senior Data Architect,Corporate Services,C2,WD-H120,WD-H131|WD-H132,Analytics
+WD-H131,Data Architect,Corporate Services,C1,WD-H120|WD-H130,,Analytics
+WD-H132,Data Modeller,Corporate Services,B2,WD-H120|WD-H130,,Analytics
+WD-H201,Team Manager,Corporate Services,C1,WD-H210,WD-H202|WD-H203|WD-H204|WD-H205|WD-H206|WD-H207,Corporate Services
+WD-H202,Policy Officer,Corporate Services,B1,WD-H210|WD-H201,,Corporate Services
+WD-H203,Policy Officer,Corporate Services,B2,WD-H210|WD-H201,,Corporate Services
+WD-H204,Policy Coordinator,Corporate Services,B1,WD-H210|WD-H201,,Corporate Services
+WD-H205,Senior Policy Officer,Corporate Services,B2,WD-H210|WD-H201,,Corporate Services
+WD-H206,Policy Officer,Corporate Services,B1,WD-H210|WD-H201,,Corporate Services
+WD-H207,Policy Coordinator,Corporate Services,B2,WD-H210|WD-H201,,Corporate Services
+WD-H210,Head of Policy,Corporate Services,D1,,WD-H201|WD-H211,Corporate Services
+WD-H211,Policy Adviser,Corporate Services,C2,WD-H210,WD-H212|WD-H213,Corporate Services
+WD-H212,Senior Policy Officer,Corporate Services,B2,WD-H210|WD-H211,,Corporate Services
+WD-H213,Policy Officer,Corporate Services,B1,WD-H210|WD-H211,,Corporate Services
+WD-H301,Junior Engineer,Engineering Operations,B1,WD-H310|WD-H320,,Engineering
+WD-H302,Engineering Technician,Engineering Operations,A2,WD-H310|WD-H320,,Engineering
+WD-H303,Junior Engineer,Engineering Operations,A2,WD-H310,,Engineering
+WD-H304,Graduate Engineer,Engineering Operations,A1,WD-H310,,Engineering
+WD-H310,Engineering Team Leader,Engineering Operations,C1,WD-H320,WD-H301|WD-H302|WD-H303|WD-H304,Engineering
+WD-H320,Engineering Manager,Engineering Operations,D1,,WD-H310|WD-H321,Engineering
+WD-H321,Senior Engineering Manager,Engineering Operations,D2,,WD-H310|WD-H320,Engineering
+WD-GEN001,Planning Officer,Corporate Services,B1,WD-GEN020,,Planning
+WD-GEN002,Senior Planning Officer,Corporate Services,B2,WD-GEN020,WD-GEN001,Planning
+WD-GEN003,Planning Manager,Corporate Services,C1,WD-GEN020,WD-GEN001|WD-GEN002,Planning
+WD-GEN020,Head of Planning,Corporate Services,D1,,WD-GEN003|WD-GEN004,Planning
+WD-GEN004,Planning Policy Adviser,Corporate Services,C2,WD-GEN020,WD-GEN005|WD-GEN006,Planning
+WD-GEN005,Planning Officer,Corporate Services,B2,WD-GEN020|WD-GEN004,,Planning
+WD-GEN006,Planning Officer,Corporate Services,B1,WD-GEN020|WD-GEN004,,Planning
+WD-GEN007,Communications Manager,Corporate Services,C1,WD-GEN030,WD-GEN008|WD-GEN009|WD-GEN010,Communications
+WD-GEN008,Communications Officer,Corporate Services,B1,WD-GEN030|WD-GEN007,,Communications
+WD-GEN009,Digital Content Officer,Corporate Services,B2,WD-GEN030|WD-GEN007,,Communications
+WD-GEN010,Social Media Officer,Corporate Services,A2,WD-GEN030|WD-GEN007,,Communications
+WD-GEN030,Head of Communications,Corporate Services,D1,,WD-GEN007|WD-GEN011,Communications
+WD-GEN011,Press Officer,Corporate Services,B1,WD-GEN030,,Communications
+WD-GEN012,HR Officer,HR,B1,WD-004032,,HR
+WD-GEN013,HR Adviser,HR,B2,WD-004032,,HR
+WD-GEN014,Learning and Development Adviser,HR,B2,WD-004032,,HR
+WD-GEN015,Recruitment Officer,HR,B1,WD-004032,,HR
+WD-GEN016,Plant Operator,Plant Operations,A2,WD-003010,,Operations
+WD-GEN017,Plant Technician,Plant Operations,A1,WD-003010,,Operations
+WD-GEN018,Control Room Operator,Plant Operations,B1,WD-003010,,Operations
+WD-GEN019,Senior Plant Operator,Plant Operations,B2,WD-003010,,Operations
+WD-GEN021,Engineering Technician,Engineering Operations,A1,WD-001010,,Engineering
+WD-GEN022,Electrical Technician,Engineering Operations,A2,WD-001010,,Engineering
+WD-GEN023,Instrumentation Engineer,Engineering Operations,B1,WD-001010,,Engineering
+WD-GEN024,Mechanical Technician,Engineering Operations,A2,WD-001010,,Engineering
+WD-GEN025,Project Engineer,Engineering Operations,B2,WD-001010,,Engineering
+WD-GEN026,Finance Officer,Corporate Services,B1,WD-004031,,Finance
+WD-GEN027,Finance Analyst,Corporate Services,B2,WD-004031,,Finance
+WD-GEN028,Management Accountant,Corporate Services,C1,WD-004031,WD-GEN026|WD-GEN027,Finance
+WD-GEN029,Procurement Officer,Corporate Services,B1,WD-GEN040,,Procurement
+WD-GEN040,Head of Procurement,Corporate Services,C2,WD-004020,WD-GEN029|WD-GEN041,Procurement
+WD-GEN041,Senior Procurement Officer,Corporate Services,C1,WD-GEN040,WD-GEN029,Procurement
+WD-GEN042,Facilities Officer,Facilities Management,A2,WD-002001,,Facilities
+WD-GEN043,Maintenance Technician,Facilities Management,A1,WD-002001,,Facilities
+WD-GEN044,Facilities Coordinator,Facilities Management,B1,WD-002001,,Facilities
+WD-GEN045,Maintenance Supervisor,Facilities Management,B2,WD-002001,WD-GEN042|WD-GEN043|WD-GEN044,Facilities
+WD-GEN046,Plant Operator,Plant Operations,B2,WD-003021,,Operations
+WD-GEN047,Plant Operator,Plant Operations,B1,WD-003021,,Operations
+WD-GEN048,Plant Technician,Plant Operations,A2,WD-003021,,Operations

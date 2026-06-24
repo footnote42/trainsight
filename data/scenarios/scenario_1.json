@@ -1,0 +1,43 @@
+{
+  "scenario_id": "1",
+  "description": "Clean individual submission — Systems Engineer, 3 role-eligible courses, no challenges expected",
+  "person": {
+    "person_id": "WD-001001",
+    "lead_technical_role": "Systems Engineer",
+    "job_family": "Engineering Operations",
+    "grade": "B2",
+    "management_chain": ["WD-001010", "WD-001020"],
+    "direct_reports": [],
+    "has_direct_reports": false,
+    "department": "Engineering"
+  },
+  "submission_mode": "self",
+  "basket": [
+    {
+      "person_id": "WD-001001",
+      "course_id": "MEWP-001",
+      "reason": "Maintaining Capability",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-001001",
+      "course_id": "HSAW-001",
+      "reason": "Resilience",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-001001",
+      "course_id": "FAID-001",
+      "reason": "Resilience",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [],
+  "ground_truth_challenges": []
+}

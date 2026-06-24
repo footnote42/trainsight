@@ -13,7 +13,6 @@ build/
 data/raw/
 data/processed/
 data/external/
-*.csv
 *.parquet
 *.feather
 *.h5
@@ -21,6 +20,10 @@ data/external/
 *.pkl
 *.pickle
 !data/samples/
+# Mock data — no real data, committed intentionally
+!data/catalogue.json
+!data/workday.csv
+!data/scenarios/*.json
 
 # Models
 models/
@@ -36,8 +39,15 @@ models/
 
 # Kaggle credentials
 kaggle.json
+# JSON excluded globally but mock data excepted above
 *.json
 !package.json
+!data/catalogue.json
+!data/scenarios/*.json
+
+# Tool artifacts
+.playwright-mcp/
+.env.agent-runtime
 
 # IDE
 .vscode/

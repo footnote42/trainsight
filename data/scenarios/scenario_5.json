@@ -1,0 +1,91 @@
+{
+  "scenario_id": "5",
+  "description": "Clean LM submission — Senior Engineer, 9 role-eligible courses across 9 team members, balanced priority mix, no challenges expected",
+  "person": {
+    "person_id": "WD-005001",
+    "lead_technical_role": "Senior Engineer",
+    "job_family": "Engineering Operations",
+    "grade": "C2",
+    "management_chain": ["WD-005020"],
+    "direct_reports": ["WD-005002", "WD-005003", "WD-005004", "WD-005005", "WD-005006", "WD-005007", "WD-005008", "WD-005009", "WD-005010", "WD-005011"],
+    "has_direct_reports": true,
+    "department": "Engineering"
+  },
+  "submission_mode": "lm",
+  "basket": [
+    {
+      "person_id": "WD-005001",
+      "course_id": "STMG-001",
+      "reason": "Professional Development",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005002",
+      "course_id": "HSAW-001",
+      "reason": "Resilience",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005003",
+      "course_id": "GCPM-001",
+      "reason": "Capability Gap",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005004",
+      "course_id": "ELEC-001",
+      "reason": "Maintaining Capability",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005005",
+      "course_id": "DPGD-001",
+      "reason": "Maintaining Capability",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005006",
+      "course_id": "FIRE-001",
+      "reason": "Maintaining Capability",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005007",
+      "course_id": "WRTK-001",
+      "reason": "Professional Development",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005008",
+      "course_id": "WRAC-001",
+      "reason": "Maintaining Capability",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-005009",
+      "course_id": "ASBA-001",
+      "reason": "Maintaining Capability",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [],
+  "ground_truth_challenges": []
+}

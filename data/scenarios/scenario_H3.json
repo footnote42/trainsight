@@ -1,0 +1,37 @@
+{
+  "scenario_id": "H3",
+  "description": "HELD-OUT — Role eligibility — Junior Engineer (Engineering Operations, B1) requests a leadership course restricted to Leadership/HR roles at C1+. DO NOT use to tune agent prompts.",
+  "person": {
+    "person_id": "WD-H301",
+    "lead_technical_role": "Junior Engineer",
+    "job_family": "Engineering Operations",
+    "grade": "B1",
+    "management_chain": ["WD-H310", "WD-H320"],
+    "direct_reports": [],
+    "has_direct_reports": false,
+    "department": "Engineering"
+  },
+  "submission_mode": "self",
+  "basket": [
+    {
+      "person_id": "WD-H301",
+      "course_id": "CONF-001",
+      "reason": "Capability Gap",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H301",
+      "course_id": "ASBA-001",
+      "reason": "Maintaining Capability",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [],
+  "ground_truth_challenges": [
+    {"type": "role_fit", "course_id": "CONF-001"}
+  ]
+}

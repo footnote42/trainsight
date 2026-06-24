@@ -1,0 +1,39 @@
+{
+  "scenario_id": "4",
+  "description": "Role mismatch — Business Support Officer (A2, Corporate Services) requests grade-restricted and role-restricted courses; PMFN-001 also has unjustified Critical/Scarce Skill reason",
+  "person": {
+    "person_id": "WD-004001",
+    "lead_technical_role": "Business Support Officer",
+    "job_family": "Corporate Services",
+    "grade": "A2",
+    "management_chain": ["WD-004010", "WD-004020"],
+    "direct_reports": [],
+    "has_direct_reports": false,
+    "department": "Corporate Services"
+  },
+  "submission_mode": "self",
+  "basket": [
+    {
+      "person_id": "WD-004001",
+      "course_id": "PMFN-001",
+      "reason": "Critical/Scarce Skill",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-004001",
+      "course_id": "LEAD-001",
+      "reason": "Professional Development",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [],
+  "ground_truth_challenges": [
+    {"type": "role_fit", "course_id": "PMFN-001"},
+    {"type": "role_fit", "course_id": "LEAD-001"},
+    {"type": "reason_coherence", "course_id": "PMFN-001"}
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "scenario_id": "H2",
+  "description": "HELD-OUT — Priority inflation + reason mismatch LM — Team Manager (Corporate Services, C1), 9 items across 7-person team, 6 High priority, 2 unjustified Critical/Scarce Skill reasons. DO NOT use to tune agent prompts.",
+  "person": {
+    "person_id": "WD-H201",
+    "lead_technical_role": "Team Manager",
+    "job_family": "Corporate Services",
+    "grade": "C1",
+    "management_chain": ["WD-H210"],
+    "direct_reports": ["WD-H202", "WD-H203", "WD-H204", "WD-H205", "WD-H206", "WD-H207"],
+    "has_direct_reports": true,
+    "department": "Corporate Services"
+  },
+  "submission_mode": "lm",
+  "basket": [
+    {
+      "person_id": "WD-H201",
+      "course_id": "COACH-001",
+      "reason": "Critical/Scarce Skill",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H201",
+      "course_id": "DPGD-001",
+      "reason": "Maintaining Capability",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H202",
+      "course_id": "EXCA-001",
+      "reason": "Critical/Scarce Skill",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H203",
+      "course_id": "DPGD-001",
+      "reason": "Maintaining Capability",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H204",
+      "course_id": "SCAD-001",
+      "reason": "Maintaining Capability",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H205",
+      "course_id": "PRES-001",
+      "reason": "Professional Development",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H206",
+      "course_id": "WRTK-001",
+      "reason": "Professional Development",
+      "priority": "Medium",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H207",
+      "course_id": "EQAL-001",
+      "reason": "Maintaining Capability",
+      "priority": "High",
+      "challenge_types_fired": [],
+      "override_justification": null
+    },
+    {
+      "person_id": "WD-H207",
+      "course_id": "TIME-001",
+      "reason": "Maintaining Capability",
+      "priority": "Low",
+      "challenge_types_fired": [],
+      "override_justification": null
+    }
+  ],
+  "prior_submissions": [],
+  "ground_truth_challenges": [
+    {"type": "priority_inflation", "course_id": "basket"},
+    {"type": "reason_coherence", "course_id": "COACH-001"},
+    {"type": "reason_coherence", "course_id": "EXCA-001"}
+  ]
+}
