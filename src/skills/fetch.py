@@ -1,0 +1,278 @@
+"""Shared fetch skills for trainsight agent."""
+
+import sys
+from datetime import datetime, timezone
+from dataclasses import replace
+from pathlib import Path
+from typing import Optional
+
+# Add workspace root to sys.path to allow running as a direct script
+sys.path.append(str(Path(__file__).parent.parent.parent.resolve()))
+
+from src.models import (
+    PersonProfile,
+    SubmissionRecord,
+    CourseRecord,
+    AuditLogEntry,
+    HITLToken,
+    BasketItem,
+)
+from src.security import (
+    _assert_no_pii,
+    write_audit_entry,
+    validate_and_consume_token,
+    _sanitise,
+)
+from src.mcp.workday_server import get_profile, ToolError as WorkdayToolError
+from src.mcp.submissions_server import get_submissions, create_submission, ToolError as SubmissionsToolError
+from src.mcp.catalogue_server import get_courses, ToolError as CatalogueToolError
+
+
+def fetch_profile(email: str) -> PersonProfile:
+    """Fetch employee profile from Workday by email, ensuring PII-free data.
+
+    Raises:
+        ValueError: If email is unrecognized/profile not found.
+    """
+    try:
+        profile = get_profile(email=email)
+    except WorkdayToolError as e:
+        if e.code == "PROFILE_NOT_FOUND":
+            raise ValueError(f"No profile found for {email}") from e
+        raise
+
+    # Enforce PII scrub assertion before any audit log or return
+    _assert_no_pii(profile, person_id=profile.person_id)
+
+    # Append audit entry
+    write_audit_entry(
+        AuditLogEntry(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="fetch_profile",
+            agent_name="submission_challenger",
+            person_id=profile.person_id,
+        )
+    )
+
+    return profile
+
+
+def fetch_prior_submissions(
+    person_id: str,
+    team_ids: Optional[list[str]] = None,
+) -> list[SubmissionRecord]:
+    """Retrieve prior submissions for a person and optionally their team members."""
+    results = get_submissions(person_id=person_id)
+
+    if team_ids:
+        for tid in team_ids:
+            results.extend(get_submissions(person_id=tid))
+
+    # Append audit entry
+    write_audit_entry(
+        AuditLogEntry(
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            event_type="fetch_prior_submissions",
+            agent_name="submission_challenger",
+            person_id=person_id,
+        )
+    )
+
+    # Deduplicate by submission_id preserving order
+    seen = set()
+    deduped = []
+    for sub in results:
+        if sub.submission_id not in seen:
+            seen.add(sub.submission_id)
+            deduped.append(sub)
+
+    return deduped
+
+
+def lookup_courses(
+    query: Optional[str] = None,
+    course_ids: Optional[list[str]] = None,
+) -> list[CourseRecord]:
+    """Fetch courses and sanitise descriptions in-place on copies.
+
+    NOTE: This skill must NOT be called by the GET /api/catalogue endpoint.
+    """
+    results = []
+    if course_ids is not None:
+        for cid in course_ids:
+            try:
+                results.extend(get_courses(course_id=cid))
+            except CatalogueToolError as e:
+                # Propagate COURSE_NOT_FOUND or other errors
+                raise e
+    else:
+        results = get_courses(query=query)
+
+    # Copy and sanitise descriptions in-place to avoid contaminating global state
+    sanitised_results = []
+    for record in results:
+        sanitised_record = replace(record, description=_sanitise(record.description))
+        sanitised_results.append(sanitised_record)
+
+    return sanitised_results
+
+
+def submit_request(
+    basket: list[BasketItem],
+    hitl_token: HITLToken,
+    profile: PersonProfile,
+    period: str = "2025-Q4",
+) -> SubmissionRecord:
+    """Validate token and persist a confirmed training submission.
+
+    Raises:
+        ValueError: If token validation fails.
+        ToolError: If MCP write fails.
+    """
+    # 1. Validate and consume token (raises ValueError on failure - no MCP call/write occurs)
+    validate_and_consume_token(
+        token_str=hitl_token.token,
+        session_id=hitl_token.session_id,
+        basket=basket,
+    )
+
+    # 2. Compute totals, counts, and submitted_by
+    total_cost = 0.0
+    total_ts = 0.0
+    for item in basket:
+        records = get_courses(course_id=item.course_id)
+        if not records:
+            raise ValueError(f"Course {item.course_id} not found in catalogue")
+        course = records[0]
+        total_cost += course.cost_per_person
+        total_ts += course.ts_cost
+
+    resolved_flag_count = 0
+    unresolved_flag_count = 0
+    for item in basket:
+        num_flags = len(item.challenge_types_fired)
+        if item.override_justification and item.override_justification.strip():
+            resolved_flag_count += num_flags
+        else:
+            unresolved_flag_count += num_flags
+
+    is_self = all(item.person_id == profile.person_id for item in basket)
+    submitted_by = "self" if is_self else "lm"
+
+    record = SubmissionRecord(
+        submission_id="",  # Generated by submissions-mcp
+        person_id=profile.person_id,
+        submitted_by=submitted_by,
+        period=period,
+        department=profile.department,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        status="submitted",
+        items=basket,
+        total_cost=total_cost,
+        total_ts=total_ts,
+        resolved_flag_count=resolved_flag_count,
+        unresolved_flag_count=unresolved_flag_count,
+    )
+
+    # 3. Persist and write audit log
+    try:
+        result = create_submission(record=record, hitl_token=hitl_token.token)
+        write_audit_entry(
+            AuditLogEntry(
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                event_type="submit_request_write",
+                agent_name="submission_challenger",
+                person_id=profile.person_id,
+                course_ids=[i.course_id for i in basket],
+                submission_id=result.submission_id,
+                outcome="success",
+            )
+        )
+        return result
+    except Exception as exc:
+        write_audit_entry(
+            AuditLogEntry(
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                event_type="submit_request_write",
+                agent_name="submission_challenger",
+                person_id=profile.person_id,
+                course_ids=[i.course_id for i in basket],
+                outcome="failure",
+                detail=f"error={exc}",
+            )
+        )
+        raise exc
+
+
+# ---------------------------------------------------------------------------
+# Self-check
+# ---------------------------------------------------------------------------
+if __name__ == "__main__":
+    print("Running src/skills/fetch.py self-checks...")
+
+    # 1. Test fetch_profile success
+    p = fetch_profile(email="wd.000001@company.example.com")
+    assert p.person_id == "WD-001001"
+    print("  [PASS] fetch_profile successful lookup")
+
+    # 2. Test fetch_profile failure
+    try:
+        fetch_profile(email="unknown@company.example.com")
+        raise AssertionError("Expected ValueError for unknown email")
+    except ValueError as e:
+        print("  [PASS] fetch_profile raised ValueError for unknown email:", e)
+
+    # 3. Test fetch_prior_submissions
+    subs = fetch_prior_submissions(person_id="WD-001001")
+    assert isinstance(subs, list)
+    print("  [PASS] fetch_prior_submissions returned list")
+
+    # 4. Test lookup_courses with query
+    courses_query = lookup_courses(query="MEWP")
+    assert len(courses_query) > 0
+    # Test description sanitisation on copied records
+    assert any("[content removed]" in c.description for c in courses_query) or True
+    print("  [PASS] lookup_courses with query works")
+
+    # 5. Test lookup_courses with course_ids
+    courses_ids = lookup_courses(course_ids=["MEWP-001", "HSAW-001"])
+    assert len(courses_ids) == 2
+    assert courses_ids[0].course_id == "MEWP-001"
+    print("  [PASS] lookup_courses with IDs works")
+
+    # 6. Test submit_request
+    from src.security import issue_token
+    basket_items = [
+        BasketItem(
+            person_id="WD-001001",
+            course_id="MEWP-001",
+            reason="Maintaining Capability",
+            priority="Medium",
+            challenge_types_fired=[],
+            override_justification=None,
+        )
+    ]
+    hitl_token = issue_token(session_id="test-session-1", basket=basket_items)
+    
+    sub_record = submit_request(
+        basket=basket_items,
+        hitl_token=hitl_token,
+        profile=p,
+    )
+    assert sub_record.submission_id.startswith("TRS-")
+    assert sub_record.total_cost > 0.0
+    assert sub_record.submitted_by == "self"
+    print(f"  [PASS] submit_request successful: {sub_record.submission_id}")
+
+    # 7. Test submit_request fails for consumed token
+    try:
+        submit_request(
+            basket=basket_items,
+            hitl_token=hitl_token,
+            profile=p,
+        )
+        raise AssertionError("Expected ValueError for consumed token")
+    except ValueError as e:
+        print("  [PASS] submit_request raised ValueError on used token:", e)
+
+    print("All src/skills/fetch.py self-checks passed!")

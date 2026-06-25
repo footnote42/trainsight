@@ -1,5 +1,5 @@
-# trainsight — Path Layout
-
+#01 trainsight — Path Layout
+2.*
 TR.md paths are unchanged. This table maps TR.md references to actual scaffold locations.
 
 | TR.md reference | Actual path |

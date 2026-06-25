@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>trainsight — Training Requirements Portal</title>
+  <!-- Font Setup -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* OKLCH Design System Tokens */
+    :root {
+      --bg-app: oklch(0.985 0.003 240);
+      --bg-surface: oklch(1.0 0 0);
+      --bg-surface-alt: oklch(0.96 0.005 240);
+      --border-color: oklch(0.91 0.005 240);
+      
+      --text-primary: oklch(0.22 0.012 240);
+      --text-secondary: oklch(0.48 0.008 240);
+      --text-muted: oklch(0.68 0.006 240);
+      
+      --accent-color: oklch(0.53 0.16 260); /* Premium Indigo */
+      --accent-hover: oklch(0.45 0.15 260);
+      --accent-tint: oklch(0.95 0.015 260);
+      
+      --warning-bg: oklch(0.97 0.04 85); /* Soft Warning Amber */
+      --warning-border: oklch(0.85 0.12 85);
+      --warning-text: oklch(0.40 0.12 85);
+      
+      --success-bg: oklch(0.94 0.06 170); /* Soft Success Teal */
+      --success-border: oklch(0.72 0.12 170);
+      --success-text: oklch(0.28 0.09 170);
+      
+      --danger-bg: oklch(0.96 0.05 20); /* Soft Danger Red */
+      --danger-border: oklch(0.85 0.12 20);
+      --danger-text: oklch(0.40 0.12 20);
+
+      --font-display: 'Sora', sans-serif;
+      --font-body: 'Albert Sans', sans-serif;
+      
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      
+      --transition-fast: 0.15s ease;
+      --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Base resets */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--bg-app);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-y: scroll;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* Layout Utilities */
+    .app-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      background-color: var(--accent-color);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-surface);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.2rem;
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .user-tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .tag-badge {
+      background-color: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Screens management */
+    .screen {
+      display: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity var(--transition-normal), transform var(--transition-normal);
+    }
+
+    .screen.active {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Common Card Styles */
+    .card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: 0 1px 3px oklch(0 0 0 / 0.02);
+    }
+
+    /* Screen 1: Identity & Authentication */
+    .identity-card {
+      max-width: 520px;
+      margin: 80px auto;
+      width: 100%;
+      text-align: left;
+    }
+
+    .identity-card h2 {
+      margin-bottom: 8px;
+      font-size: 1.8rem;
+    }
+
+    .identity-card p.subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-primary);
+      background-color: var(--bg-surface);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--accent-tint);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: background-color var(--transition-fast), transform var(--transition-fast), border-color var(--transition-fast);
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-color);
+      color: var(--bg-surface);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background-color: var(--bg-surface-alt);
+      border-color: var(--text-muted);
+    }
+
+    .btn-danger {
+      background-color: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
+    }
+
+    .btn-danger:hover {
+      background-color: oklch(0.92 0.07 20);
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 0.875rem;
+    }
+
+    /* Profile Display and Mode Selection */
+    .profile-summary {
+      background-color: var(--bg-surface-alt);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+    }
+
+    .profile-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      font-size: 0.9rem;
+    }
+
+    .profile-summary-item strong {
+      display: block;
+      color: var(--text-secondary);
+      font-weight: 500;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .mode-selection-container {
+      margin-top: 24px;
+      animation: fadeIn var(--transition-normal);
+    }
+
+    .mode-toggle-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .mode-toggle-btn {
+      background-color: var(--bg-surface);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color var(--transition-fast), background-color var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mode-toggle-btn:hover {
+      border-color: var(--text-muted);
+    }
+
+    .mode-toggle-btn.active {
+      border-color: var(--accent-color);
+      background-color: var(--accent-tint);
+    }
+
+    .mode-toggle-btn strong {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .mode-toggle-btn span {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Screen 2: Course Selection & Chat (Two Column) */
+    .workspace-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .workspace-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .left-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Course Catalogue Styling */
+    .catalogue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .catalogue-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    .search-bar {
+      flex-grow: 1;
+      position: relative;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .course-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .course-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color var(--transition-fast);
+    }
+
+    .course-card:hover {
+      border-color: var(--text-muted);
+    }
+
+    .course-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .course-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-internal {
+      background-color: oklch(0.95 0.015 160);
+      color: oklch(0.4 0.08 160);
+      border: 1px solid oklch(0.85 0.04 160);
+    }
+
+    .badge-external {
+      background-color: oklch(0.95 0.015 220);
+      color: oklch(0.4 0.08 220);
+      border: 1px solid oklch(0.85 0.04 220);
+    }
+
+    .course-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .course-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .course-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .course-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      padding-top: 12px;
+      margin-top: 4px;
+    }
+
+    .course-cost {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .course-cost-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Add Form UI (Inline Expander) */
+    .add-form-container {
+      background-color: var(--bg-surface-alt);
+      border-top: 1px solid var(--border-color);
+      padding: 16px;
+      margin-top: 8px;
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      animation: slideDown var(--transition-normal);
+    }
+
+    .add-form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .add-form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    /* Basket Panel Styling */
+    .basket-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .basket-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .basket-group {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .basket-group-header {
+      background-color: var(--bg-surface-alt);
+      padding: 10px 16px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .basket-item {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-surface);
+    }
+
+    .basket-item:last-child {
+      border-bottom: none;
+    }
+
+    .basket-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .basket-item-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .basket-item-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .basket-item-price {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color var(--transition-fast), background-color var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-icon:hover {
+      color: var(--danger-text);
+      background-color: var(--danger-bg);
+    }
+
+    .basket-totals {
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .totals-row-grand {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.15rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--text-primary);
+      border-top: 1px dashed var(--border-color);
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    /* Right Column: Training Advisor Panel */
+    .advisor-card {
+      display: flex;
+      flex-direction: column;
+      height: 680px;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .advisor-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border-color);
+      background-color: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .advisor-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .advisor-chat-area {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background-color: var(--bg-surface-alt);
+    }
+
+    .chat-bubble {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      line-height: 1.45;
+      animation: popIn var(--transition-normal);
+    }
+
+    .chat-bubble-agent {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      align-self: flex-start;
+      border-top-left-radius: 2px;
+    }
+
+    .chat-bubble-user {
+      background-color: var(--accent-color);
+      color: var(--bg-surface);
+      align-self: flex-end;
+      border-top-right-radius: 2px;
+    }
+
+    /* Challenge Alerts (inside chat stream or separate list) */
+    .challenges-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .challenge-alert {
+      background-color: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all var(--transition-normal);
+      animation: popIn var(--transition-normal);
+    }
+
+    .challenge-alert-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--warning-text);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .challenge-alert-text {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    /* No side-stripes allowed on cards. Complete border style is compliant. */
+    .challenge-alert.resolved {
+      background-color: var(--bg-surface);
+      border-color: var(--border-color);
+      opacity: 0.75;
+    }
+
+    .challenge-alert.resolved .challenge-alert-text {
+      text-decoration: line-through;
+      color: var(--text-secondary);
+    }
+
+    .override-justification-display {
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      background-color: var(--bg-surface-alt);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      border-left: 1px solid var(--border-color);
+      margin-top: 4px;
+    }
+
+    .override-form {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+      animation: slideDown var(--transition-normal);
+    }
+
+    /* Chat Input Bar */
+    .chat-input-bar {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-surface);
+      display: flex;
+      gap: 12px;
+    }
+
+    .chat-textarea {
+      flex-grow: 1;
+      height: 44px;
+      resize: none;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      transition: border-color var(--transition-fast);
+    }
+
+    .chat-textarea:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+
+    /* Screen 3: Review & Submit */
+    .review-container {
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .review-table-container {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background-color: var(--bg-surface);
+    }
+
+    .review-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    .review-table th, .review-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .review-table th {
+      background-color: var(--bg-surface-alt);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .review-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-statement-box {
+      background-color: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .challenge-summary-row {
+      display: flex;
+      gap: 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .challenge-count-tag {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .challenge-count-tag.unresolved {
+      background-color: var(--warning-bg);
+      color: var(--warning-text);
+      border: 1px solid var(--warning-border);
+    }
+
+    .challenge-count-tag.resolved {
+      background-color: var(--success-bg);
+      color: var(--success-text);
+      border: 1px solid var(--success-border);
+    }
+
+    /* Success / Submission Confirmation Panel */
+    .success-panel {
+      text-align: center;
+      padding: 48px;
+      max-width: 580px;
+      margin: 40px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background-color: var(--success-bg);
+      border: 1px solid var(--success-border);
+      border-radius: 50%;
+      color: var(--success-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .ref-badge {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--success-text);
+      background-color: var(--success-bg);
+      border: 1px solid var(--success-border);
+      padding: 8px 24px;
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.05em;
+      margin: 12px 0;
+    }
+
+    /* Global Error Banner */
+    .error-banner {
+      background-color: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger-text);
+      padding: 12px 20px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      animation: popIn var(--transition-normal);
+    }
+
+    .error-banner-close {
+      cursor: pointer;
+      font-weight: 700;
+      opacity: 0.7;
+    }
+
+    .error-banner-close:hover {
+      opacity: 1;
+    }
+
+    /* Loading Spinner Overlay */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: oklch(1.0 0 0 / 0.7);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-color);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    /* Keyframes */
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1.0); }
+    }
+
+    @keyframes slideDown {
+      from { height: 0; opacity: 0; overflow: hidden; }
+      to { height: auto; opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="app-container">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">T</div>
+        <div class="brand-title">trainsight</div>
+      </div>
+      <div class="user-tag" id="header-user-tag" style="display: none;">
+        <span id="header-email" class="tag-badge"></span>
+        <span id="header-role" class="tag-badge"></span>
+      </div>
+    </header>
+
+    <div class="error-banner" id="error-banner">
+      <span id="error-message"></span>
+      <span class="error-banner-close" onclick="closeErrorBanner()">&times;</span>
+    </div>
+
+    <main>
+      <!-- SCREEN 1: Identity -->
+      <section class="screen active" id="screen-identity">
+        <div class="card identity-card">
+          <h2>Training Requirements Portal</h2>
+          <p class="subtitle">Enter your work email to verify your Workday profile and submit your requests.</p>
+          
+          <div id="identity-auth-section">
+            <form onsubmit="handleAuthSubmit(event)">
+              <div class="form-group">
+                <label for="work-email" class="form-label">Work Email Address</label>
+                <input type="email" id="work-email" class="input-field" placeholder="e.g. sam.hughes@company.example.com" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Verify Identity &amp; Continue</button>
+            </form>
+          </div>
+
+          <div id="identity-profile-section" style="display: none;">
+            <div class="profile-summary">
+              <div class="profile-summary-grid">
+                <div class="profile-summary-item">
+                  <strong>Technical Role</strong>
+                  <span id="profile-role">-</span>
+                </div>
+                <div class="profile-summary-item">
+                  <strong>Grade</strong>
+                  <span id="profile-grade">-</span>
+                </div>
+                <div class="profile-summary-item">
+                  <strong>Department</strong>
+                  <span id="profile-dept">-</span>
+                </div>
+                <div class="profile-summary-item">
+                  <strong>Workday ID</strong>
+                  <span id="profile-id">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Toggle (only if manager) -->
+            <div class="mode-selection-container" id="mode-selection-container" style="display: none;">
+              <label class="form-label">Submission Mode</label>
+              <div class="mode-toggle-group">
+                <button type="button" class="mode-toggle-btn active" id="mode-btn-self" onclick="setMode('self')">
+                  <strong>Submitting for Myself</strong>
+                  <span>Personal training requirements for the coming year</span>
+                </button>
+                <button type="button" class="mode-toggle-btn" id="mode-btn-lm" onclick="setMode('lm')">
+                  <strong>Submitting for My Team</strong>
+                  <span>Submit requests on behalf of your direct reports</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block" onclick="goToScreen2()">Proceed to Catalogue &rarr;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: Catalogue & Advisor (Two Columns) -->
+      <section class="screen" id="screen-catalogue">
+        <div class="workspace-layout">
+          
+          <!-- Left Column (Catalogue & Basket) -->
+          <div class="left-column">
+            <div class="card">
+              <div class="catalogue-header">
+                <div class="search-bar">
+                  <input type="text" id="catalogue-search" class="input-field" placeholder="Search courses..." oninput="handleSearch(this.value)">
+                </div>
+                <div class="filter-group">
+                  <select id="catalogue-category" class="input-field" style="width: auto;" onchange="handleCategoryFilter(this.value)">
+                    <option value="">All Categories</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="course-list" id="course-list">
+                <!-- Courses dynamically rendered here -->
+              </div>
+            </div>
+
+            <!-- Basket Section -->
+            <div class="card basket-card">
+              <h3 id="basket-title">Your Basket</h3>
+              
+              <div class="basket-items-list" id="basket-items-list">
+                <!-- Basket items rendered here -->
+              </div>
+
+              <div class="basket-totals">
+                <div class="totals-row">
+                  <span>Course Fees</span>
+                  <span id="total-course-fees">&pound;0.00</span>
+                </div>
+                <div class="totals-row">
+                  <span>Estimated T&amp;S</span>
+                  <span id="total-ts-fees">&pound;0.00</span>
+                </div>
+                <div class="totals-row-grand">
+                  <span>Grand Total</span>
+                  <span id="total-grand-fees">&pound;0.00</span>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+                <button type="button" class="btn btn-primary" id="btn-review-submit" onclick="goToScreen3()" disabled>Review &amp; Submit &rarr;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column (Training Advisor Chat Panel) -->
+          <div class="card advisor-card">
+            <div class="advisor-header">
+              <div class="advisor-title">Training Advisor</div>
+              <div class="tag-badge" id="advisor-status">Live Feedback</div>
+            </div>
+            
+            <div class="advisor-chat-area" id="advisor-chat-area">
+              <!-- Active Challenges Alert Panel -->
+              <div class="challenges-container" id="challenges-container">
+                <!-- Warnings dynamically rendered here -->
+              </div>
+              
+              <!-- Chat history -->
+              <div id="chat-messages" style="display: flex; flex-direction: column; gap: 12px;">
+                <div class="chat-bubble chat-bubble-agent">
+                  Hello! I'm your Training Advisor. As you build your basket, I'll evaluate the compliance, eligibility, and operational validity of the selections. Feel free to respond to challenges in the chat below.
+                </div>
+              </div>
+            </div>
+
+            <div class="chat-input-bar">
+              <textarea id="chat-input" class="chat-textarea" placeholder="Type a response to the advisor..." onkeydown="handleChatKeydown(event)"></textarea>
+              <button type="button" class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SCREEN 3: Review & Submit -->
+      <section class="screen" id="screen-review">
+        <!-- Review Table card -->
+        <div class="review-container" id="review-submission-flow">
+          <div class="card">
+            <h2 style="margin-bottom: 8px;">Review Your Submission</h2>
+            <p class="subtitle" style="margin-bottom: 20px;">Review the final list of courses, operational justifications, and data boundaries before locking your request.</p>
+
+            <div class="review-table-container">
+              <table class="review-table">
+                <thead>
+                  <tr>
+                    <th>For Member</th>
+                    <th>Course Requested</th>
+                    <th>Priority</th>
+                    <th>Justification Reason</th>
+                    <th style="text-align: right;">Cost</th>
+                  </tr>
+                </thead>
+                <tbody id="review-table-body">
+                  <!-- Row items dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="basket-totals" style="margin: 20px 0;">
+              <div class="totals-row">
+                <span>Course Fees</span>
+                <span id="review-course-fees">&pound;0.00</span>
+              </div>
+              <div class="totals-row">
+                <span>Estimated T&amp;S</span>
+                <span id="review-ts-fees">&pound;0.00</span>
+              </div>
+              <div class="totals-row-grand">
+                <span>Grand Total</span>
+                <span id="review-grand-fees">&pound;0.00</span>
+              </div>
+            </div>
+
+            <div class="challenge-summary-row" style="margin-bottom: 20px;">
+              <span class="challenge-count-tag unresolved" id="review-unresolved-count">Unresolved flags: 0</span>
+              <span class="challenge-count-tag resolved" id="review-resolved-count">Resolved flags: 0</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Data Boundaries &amp; Statement</label>
+              <div class="data-statement-box" id="data-statement-box">
+                <!-- Loaded from submit/confirm -->
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+              <button type="button" class="btn btn-secondary" onclick="backToCatalogue()">&larr; Back to Edit</button>
+              <button type="button" class="btn btn-primary" onclick="executeSubmit()">Confirm &amp; Submit Request</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="card success-panel" id="success-panel" style="display: none;">
+          <div class="success-icon">&checkmark;</div>
+          <h2>Submission Successful</h2>
+          <p class="subtitle">Your training requirements have been logged and saved in the submissions store.</p>
+          <div class="ref-badge" id="success-ref">TRS-2025-XXXX</div>
+          <p style="color: var(--text-secondary); font-size: 0.9rem;">Please record this reference number for your training records.</p>
+          <button type="button" class="btn btn-secondary" onclick="resetApp()" style="margin-top: 16px;">Submit New Requirements</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // App State
+    let state = {
+      profile: null,
+      submissionMode: 'self', // 'self' | 'lm'
+      catalogue: [],
+      basket: {
+        items: [],
+        challenges: [],
+        totals: { total_cost: 0, total_ts: 0, grand_total: 0 },
+        basket_overrides: {}
+      },
+      chatHistory: [],
+      searchQuery: '',
+      categoryFilter: '',
+      activeOverrideId: null,
+      confirmToken: null
+    };
+
+    // DOM References
+    const overlay = document.getElementById('loading-overlay');
+    const errorBanner = document.getElementById('error-banner');
+    const errorMessage = document.getElementById('error-message');
+
+    // Loader controls
+    function showLoader() { overlay.style.display = 'flex'; }
+    function hideLoader() { overlay.style.display = 'none'; }
+
+    // Error UI controls
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorBanner.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function closeErrorBanner() {
+      errorBanner.style.display = 'none';
+    }
+
+    // API Wrapper
+    async function fetchAPI(url, options = {}) {
+      showLoader();
+      closeErrorBanner();
+      try {
+        const response = await fetch(url, {
+          headers: { 'Content-Type': 'application/json', ...options.headers },
+          ...options
+        });
+        
+        if (response.status === 503) {
+          throw new Error('WINDOW_CLOSED');
+        }
+
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.detail || 'API_ERROR');
+        }
+        return data;
+      } catch (err) {
+        console.error(err);
+        throw err;
+      } finally {
+        hideLoader();
+      }
+    }
+
+    // Screen navigation helper
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const activeScreen = document.getElementById(screenId);
+      activeScreen.classList.add('active');
+    }
+
+    /* --- SCREEN 1: Identity --- */
+    async function handleAuthSubmit(event) {
+      event.preventDefault();
+      const email = document.getElementById('work-email').value.trim();
+      if (!email) return;
+
+      try {
+        const profile = await fetchAPI('/api/profile', {
+          method: 'POST',
+          body: JSON.stringify({ email })
+        });
+
+        state.profile = profile;
+        state.submissionMode = profile.has_direct_reports ? 'lm' : 'self';
+
+        // Load catalogue
+        const catalogue = await fetchAPI('/api/catalogue');
+        state.catalogue = catalogue;
+
+        // Render profile fields
+        document.getElementById('profile-role').textContent = profile.lead_technical_role;
+        document.getElementById('profile-grade').textContent = profile.grade;
+        document.getElementById('profile-dept').textContent = profile.department;
+        document.getElementById('profile-id').textContent = profile.person_id;
+
+        // Render header user details
+        document.getElementById('header-email').textContent = email;
+        document.getElementById('header-role').textContent = `${profile.lead_technical_role} (${profile.grade})`;
+        document.getElementById('header-user-tag').style.display = 'flex';
+
+        // Handle manager toggle view
+        const toggleContainer = document.getElementById('mode-selection-container');
+        if (profile.has_direct_reports) {
+          toggleContainer.style.display = 'block';
+          // Force UI toggle buttons to match starting mode
+          setModeUI(state.submissionMode);
+        } else {
+          toggleContainer.style.display = 'none';
+        }
+
+        // Show profile panel
+        document.getElementById('identity-auth-section').style.display = 'none';
+        document.getElementById('identity-profile-section').style.display = 'block';
+
+      } catch (err) {
+        if (err.message === 'WINDOW_CLOSED') {
+          showError('Submission window is currently closed.');
+        } else if (err.message === 'PROFILE_NOT_FOUND') {
+          showError('Email not recognised. Contact your HR team.');
+        } else {
+          showError('Failed to verify profile. Please check the email address and try again.');
+        }
+      }
+    }
+
+    async function setMode(mode) {
+      if (mode === state.submissionMode) return;
+      try {
+        const basketResponse = await fetchAPI('/api/session/mode', {
+          method: 'POST',
+          body: JSON.stringify({ submission_mode: mode })
+        });
+        
+        state.submissionMode = mode;
+        state.basket = basketResponse;
+        
+        setModeUI(mode);
+      } catch (err) {
+        showError('Failed to change submission mode.');
+      }
+    }
+
+    function setModeUI(mode) {
+      document.querySelectorAll('.mode-toggle-btn').forEach(btn => btn.classList.remove('active'));
+      if (mode === 'self') {
+        document.getElementById('mode-btn-self').classList.add('active');
+      } else {
+        document.getElementById('mode-btn-lm').classList.add('active');
+      }
+    }
+
+    async function goToScreen2() {
+      // Sync basket state on load
+      try {
+        const basketResponse = await fetchAPI('/api/session/basket');
+        state.basket = basketResponse;
+      } catch (err) {
+        // Basket might be empty / new session
+      }
+
+      // Populate Category list filters
+      const categories = [...new Set(state.catalogue.map(c => c.category))].sort();
+      const selectCat = document.getElementById('catalogue-category');
+      selectCat.innerHTML = '<option value="">All Categories</option>';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        selectCat.appendChild(opt);
+      });
+
+      renderCatalogue();
+      renderBasket();
+      renderAdvisorChallenges();
+      showScreen('screen-catalogue');
+    }
+
+    /* --- SCREEN 2: Catalogue & Advisor --- */
+    function handleSearch(val) {
+      state.searchQuery = val.trim().toLowerCase();
+      renderCatalogue();
+    }
+
+    function handleCategoryFilter(val) {
+      state.categoryFilter = val;
+      renderCatalogue();
+    }
+
+    function renderCatalogue() {
+      const container = document.getElementById('course-list');
+      container.innerHTML = '';
+
+      const filtered = state.catalogue.filter(course => {
+        const matchesSearch = !state.searchQuery || 
+          course.title.toLowerCase().includes(state.searchQuery) ||
+          course.course_id.toLowerCase().includes(state.searchQuery) ||
+          course.description.toLowerCase().includes(state.searchQuery);
+        
+        const matchesCategory = !state.categoryFilter || course.category === state.categoryFilter;
+        return matchesSearch && matchesCategory;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 24px;">No courses match your filters.</div>';
+        return;
+      }
+
+      filtered.forEach(course => {
+        const card = document.createElement('div');
+        card.className = 'card course-card';
+        card.id = `course-card-${course.course_id}`;
+
+        const isExternal = course.type === 'External';
+        const badgeClass = isExternal ? 'badge-external' : 'badge-internal';
+
+        // Format cost string
+        const costStr = `&pound;${course.cost_per_person.toLocaleString()}`;
+        const tsStr = course.ts_cost > 0 ? ` (+ &pound;${course.ts_cost} T&amp;S)` : '';
+
+        card.innerHTML = `
+          <div class="course-badge-row">
+            <h4 class="course-title">${course.title}</h4>
+            <span class="badge ${badgeClass}">${course.type}</span>
+          </div>
+          <div class="course-meta">
+            <span><strong>ID:</strong> ${course.course_id}</span>
+            <span><strong>Category:</strong> ${course.category}</span>
+            <span><strong>Duration:</strong> ${course.duration_hours} hrs</span>
+          </div>
+          <p class="course-desc">${course.description}</p>
+          <div class="course-footer">
+            <div class="course-cost">
+              ${costStr}<span class="course-cost-sub">${tsStr} per person</span>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAddForm('${course.course_id}')">Add to Basket</button>
+          </div>
+          
+          <!-- Add Form Panel -->
+          <div class="add-form-container" id="add-form-${course.course_id}">
+            <div class="add-form-grid">
+              ${state.submissionMode === 'lm' ? `
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label" style="font-size:0.75rem;">Submit For</label>
+                  <select id="add-person-${course.course_id}" class="input-field" style="padding: 8px 12px; font-size: 0.9rem;">
+                    <option value="${state.profile.person_id}">Myself (WD-ID: ${state.profile.person_id})</option>
+                    ${state.profile.direct_reports ? state.profile.direct_reports.map(dr => `
+                      <option value="${dr.workday_id}">${dr.lead_technical_role} (WD-ID: ${dr.workday_id})</option>
+                    `).join('') : ''}
+                  </select>
+                </div>
+              ` : ''}
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" style="font-size:0.75rem;">Justification Reason</label>
+                <select id="add-reason-${course.course_id}" class="input-field" style="padding: 8px 12px; font-size: 0.9rem;">
+                  <option value="Capability Gap">Capability Gap</option>
+                  <option value="Critical/Scarce Skill">Critical/Scarce Skill</option>
+                  <option value="Maintaining Capability">Maintaining Capability</option>
+                  <option value="Resilience">Resilience</option>
+                  <option value="Professional Development">Professional Development</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label" style="font-size:0.75rem;">Priority</label>
+                <select id="add-priority-${course.course_id}" class="input-field" style="padding: 8px 12px; font-size: 0.9rem;">
+                  <option value="High">High (Operationally Urgent)</option>
+                  <option value="Medium" selected>Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </div>
+            </div>
+            <div class="add-form-actions">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleAddForm('${course.course_id}')" style="padding: 8px 16px; font-size:0.85rem;">Cancel</button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="confirmAddBasket('${course.course_id}')" style="padding: 8px 16px; font-size:0.85rem;">Confirm Add</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleAddForm(courseId) {
+      const form = document.getElementById(`add-form-${courseId}`);
+      const isVisible = form.style.display === 'flex';
+      
+      // Close all other add forms
+      document.querySelectorAll('.add-form-container').forEach(el => el.style.display = 'none');
+      
+      if (!isVisible) {
+        form.style.display = 'flex';
+      }
+    }
+
+    async function confirmAddBasket(courseId) {
+      const reasonSelect = document.getElementById(`add-reason-${courseId}`);
+      const prioritySelect = document.getElementById(`add-priority-${courseId}`);
+      const personSelect = document.getElementById(`add-person-${courseId}`);
+
+      const reason = reasonSelect.value;
+      const priority = prioritySelect.value;
+      const person_id = personSelect ? personSelect.value : state.profile.person_id;
+
+      try {
+        const basketResp = await fetchAPI('/api/session/basket', {
+          method: 'POST',
+          body: JSON.stringify({
+            person_id,
+            course_id: courseId,
+            reason,
+            priority
+          })
+        });
+
+        state.basket = basketResp;
+        toggleAddForm(courseId);
+        renderBasket();
+        renderAdvisorChallenges();
+      } catch (err) {
+        showError('Failed to add course to basket.');
+      }
+    }
+
+    async function removeBasketItem(courseId, personId) {
+      try {
+        const basketResp = await fetchAPI(`/api/session/basket/${courseId}?person_id=${personId}`, {
+          method: 'DELETE'
+        });
+        state.basket = basketResp;
+        renderBasket();
+        renderAdvisorChallenges();
+      } catch (err) {
+        showError('Failed to remove course from basket.');
+      }
+    }
+
+    function renderBasket() {
+      const itemsList = document.getElementById('basket-items-list');
+      itemsList.innerHTML = '';
+
+      const items = state.basket.items || [];
+      document.getElementById('btn-review-submit').disabled = items.length === 0;
+
+      if (items.length === 0) {
+        itemsList.innerHTML = '<div style="color: var(--text-secondary); text-align: center; padding: 16px;">Your basket is empty. Select courses from the catalogue above.</div>';
+        updateTotals({ total_cost: 0, total_ts: 0, grand_total: 0 });
+        return;
+      }
+
+      // Group items by person if in line manager mode
+      if (state.submissionMode === 'lm') {
+        const groups = {};
+        
+        // Ensure manager and direct reports have a slot in order
+        groups[state.profile.person_id] = { name: `Myself (ID: ${state.profile.person_id})`, items: [] };
+        if (state.profile.direct_reports) {
+          state.profile.direct_reports.forEach(dr => {
+            groups[dr.workday_id] = { name: `${dr.lead_technical_role} (ID: ${dr.workday_id})`, items: [] };
+          });
+        }
+
+        // Distribute items
+        items.forEach(item => {
+          if (!groups[item.person_id]) {
+            groups[item.person_id] = { name: `User: ${item.person_id}`, items: [] };
+          }
+          groups[item.person_id].items.push(item);
+        });
+
+        Object.keys(groups).forEach(pId => {
+          const g = groups[pId];
+          if (g.items.length === 0) return; // Hide empty groups
+
+          const groupEl = document.createElement('div');
+          groupEl.className = 'basket-group';
+
+          const itemsHtml = g.items.map(item => {
+            const course = state.catalogue.find(c => c.course_id === item.course_id);
+            const courseTitle = course ? course.title : item.course_id;
+            const price = course ? course.cost_per_person : 0;
+            return `
+              <div class="basket-item">
+                <div class="basket-item-info">
+                  <div class="basket-item-title">${courseTitle}</div>
+                  <div class="basket-item-meta">${item.priority} &bull; ${item.reason}</div>
+                </div>
+                <div class="basket-item-price">&pound;${price.toLocaleString()}</div>
+                <button type="button" class="btn-icon" onclick="removeBasketItem('${item.course_id}', '${item.person_id}')" title="Remove Item">&times;</button>
+              </div>
+            `;
+          }).join('');
+
+          groupEl.innerHTML = `
+            <div class="basket-group-header">
+              <span>${g.name}</span>
+              <span class="tag-badge">${g.items.length} ${g.items.length === 1 ? 'course' : 'courses'}</span>
+            </div>
+            ${itemsHtml}
+          `;
+          itemsList.appendChild(groupEl);
+        });
+      } else {
+        // Individual flow — simple list
+        items.forEach(item => {
+          const course = state.catalogue.find(c => c.course_id === item.course_id);
+          const courseTitle = course ? course.title : item.course_id;
+          const price = course ? course.cost_per_person : 0;
+
+          const el = document.createElement('div');
+          el.className = 'basket-item';
+          el.style.border = '1px solid var(--border-color)';
+          el.style.borderRadius = 'var(--radius-sm)';
+
+          el.innerHTML = `
+            <div class="basket-item-info">
+              <div class="basket-item-title">${courseTitle}</div>
+              <div class="basket-item-meta">${item.priority} &bull; ${item.reason}</div>
+            </div>
+            <div class="basket-item-price">&pound;${price.toLocaleString()}</div>
+            <button type="button" class="btn-icon" onclick="removeBasketItem('${item.course_id}', '${item.person_id}')" title="Remove Item">&times;</button>
+          `;
+          itemsList.appendChild(el);
+        });
+      }
+
+      updateTotals(state.basket.totals);
+    }
+
+    function updateTotals(totals) {
+      document.getElementById('total-course-fees').innerHTML = `&pound;${totals.total_cost.toLocaleString()}`;
+      document.getElementById('total-ts-fees').innerHTML = `&pound;${totals.total_ts.toLocaleString()}`;
+      document.getElementById('total-grand-fees').innerHTML = `&pound;${totals.grand_total.toLocaleString()}`;
+    }
+
+    /* --- SCREEN 2: Advisor challenges and Chat --- */
+    function renderAdvisorChallenges() {
+      const container = document.getElementById('challenges-container');
+      container.innerHTML = '';
+
+      const challenges = state.basket.challenges || [];
+      const items = state.basket.items || [];
+      const overrides = state.basket.basket_overrides || {};
+
+      if (challenges.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      challenges.forEach(challenge => {
+        // Check if overridden
+        let isOverridden = false;
+        let justificationText = '';
+
+        if (challenge.course_id === 'basket') {
+          if (overrides[challenge.type]) {
+            isOverridden = true;
+            justificationText = overrides[challenge.type];
+          }
+        } else {
+          // Find matched item in basket
+          const matchedItem = items.find(i => i.course_id === challenge.course_id);
+          if (matchedItem && matchedItem.override_justification) {
+            isOverridden = true;
+            justificationText = matchedItem.override_justification;
+          }
+        }
+
+        const alert = document.createElement('div');
+        alert.className = `challenge-alert ${isOverridden ? 'resolved' : ''}`;
+        alert.id = `challenge-${challenge.challenge_id}`;
+
+        alert.innerHTML = `
+          <div class="challenge-alert-header">
+            <span>&#9888; ADV-FLAG: ${challenge.type.replace('_', ' ')}</span>
+          </div>
+          <div class="challenge-alert-text">${challenge.text}</div>
+          
+          ${isOverridden ? `
+            <div class="override-justification-display">
+              <strong>LM Justification Override Logged:</strong><br>
+              ${justificationText}
+            </div>
+          ` : `
+            <div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="showOverrideForm('${challenge.challenge_id}')" style="padding: 6px 12px; font-size: 0.8rem;">Override with Justification</button>
+            </div>
+            
+            <div class="override-form" id="override-form-${challenge.challenge_id.replace(':', '_').replace(':', '_')}">
+              <textarea id="override-text-${challenge.challenge_id.replace(':', '_').replace(':', '_')}" class="chat-textarea" style="height: 60px; margin-bottom: 6px;" placeholder="Provide operational business justification..."></textarea>
+              <div style="display:flex; justify-content:flex-end; gap:8px;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="hideOverrideForm('${challenge.challenge_id}')" style="padding: 4px 10px; font-size:0.75rem;">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="confirmOverride('${challenge.challenge_id}')" style="padding: 4px 10px; font-size:0.75rem;">Submit Override</button>
+              </div>
+            </div>
+          `}
+        `;
+        container.appendChild(alert);
+      });
+    }
+
+    function showOverrideForm(challengeId) {
+      const sanitizedId = challengeId.replace(':', '_').replace(':', '_');
+      document.getElementById(`override-form-${sanitizedId}`).style.display = 'flex';
+    }
+
+    function hideOverrideForm(challengeId) {
+      const sanitizedId = challengeId.replace(':', '_').replace(':', '_');
+      document.getElementById(`override-form-${sanitizedId}`).style.display = 'none';
+    }
+
+    async function confirmOverride(challengeId) {
+      const sanitizedId = challengeId.replace(':', '_').replace(':', '_');
+      const textVal = document.getElementById(`override-text-${sanitizedId}`).value.trim();
+      if (!textVal) {
+        showError('Operational justification is mandatory before an override is accepted.');
+        return;
+      }
+
+      try {
+        // Step 1: POST override
+        await fetchAPI('/api/session/challenge/override', {
+          method: 'POST',
+          body: JSON.stringify({
+            challenge_id: challengeId,
+            justification: textVal
+          })
+        });
+
+        // Step 2: GET basket refresh
+        const basketResp = await fetchAPI('/api/session/basket');
+        state.basket = basketResp;
+
+        renderBasket();
+        renderAdvisorChallenges();
+      } catch (err) {
+        showError('Failed to log challenge override.');
+      }
+    }
+
+    function handleChatKeydown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendChatMessage();
+      }
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      // Append User message locally
+      appendChatBubble('user', msg);
+      input.value = '';
+
+      try {
+        const response = await fetchAPI('/api/session/challenge/respond', {
+          method: 'POST',
+          body: JSON.stringify({ message: msg })
+        });
+
+        // Append Agent Response
+        appendChatBubble('agent', response.reply);
+
+        // Update challenges from response
+        state.basket.challenges = response.updated_challenges;
+        renderAdvisorChallenges();
+      } catch (err) {
+        if (err.message === 'INJECTION_DETECTED') {
+          showError('Prompt injection pattern detected. Message blocked.');
+          appendChatBubble('agent', '[Advisor Alert] Message blocked due to security validation filters.');
+        } else {
+          showError('Failed to send chat response.');
+        }
+      }
+    }
+
+    function appendChatBubble(sender, text) {
+      const chatArea = document.getElementById('chat-messages');
+      const bubble = document.createElement('div');
+      bubble.className = `chat-bubble chat-bubble-${sender === 'user' ? 'user' : 'agent'}`;
+      bubble.textContent = text;
+      chatArea.appendChild(bubble);
+      
+      // Scroll advisor chat container to bottom
+      const container = document.getElementById('advisor-chat-area');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    /* --- SCREEN 3: Review & Submit --- */
+    async function goToScreen3() {
+      try {
+        const confirmResp = await fetchAPI('/api/session/submit/confirm', {
+          method: 'POST'
+        });
+
+        state.confirmToken = confirmResp.hitl_token;
+
+        // Render Review Table
+        const tbody = document.getElementById('review-table-body');
+        tbody.innerHTML = '';
+
+        const items = confirmResp.items || [];
+        items.forEach(item => {
+          const course = state.catalogue.find(c => c.course_id === item.course_id);
+          const courseTitle = course ? course.title : item.course_id;
+          const cost = course ? course.cost_per_person : 0;
+
+          // Resolve display name for the target person
+          let forMember = `Myself (${item.person_id})`;
+          if (state.profile.direct_reports) {
+            const dr = state.profile.direct_reports.find(d => d.workday_id === item.person_id);
+            if (dr) {
+              forMember = `${dr.lead_technical_role} (${dr.workday_id})`;
+            }
+          }
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${forMember}</strong></td>
+            <td>${courseTitle} <code style="color:var(--text-muted);font-size:0.75rem;">${item.course_id}</code></td>
+            <td><span class="badge" style="background-color:var(--bg-surface-alt);border:1px solid var(--border-color);">${item.priority}</span></td>
+            <td>${item.reason} ${item.override_justification ? `<div class="override-justification-display" style="margin-top:4px; font-size:0.8rem;">Justified: ${item.override_justification}</div>` : ''}</td>
+            <td style="text-align: right; font-weight:700;">&pound;${cost.toLocaleString()}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Set totals
+        document.getElementById('review-course-fees').innerHTML = `&pound;${confirmResp.totals.total_cost.toLocaleString()}`;
+        document.getElementById('review-ts-fees').innerHTML = `&pound;${confirmResp.totals.total_ts.toLocaleString()}`;
+        document.getElementById('review-grand-fees').innerHTML = `&pound;${confirmResp.totals.grand_total.toLocaleString()}`;
+
+        // Set resolved count
+        document.getElementById('review-unresolved-count').textContent = `Unresolved flags: ${confirmResp.unresolved_challenge_count}`;
+        document.getElementById('review-resolved-count').textContent = `Resolved flags: ${confirmResp.resolved_challenge_count}`;
+
+        // Set data statement
+        document.getElementById('data-statement-box').textContent = confirmResp.data_statement;
+
+        // Hide success panel if previously visible
+        document.getElementById('review-submission-flow').style.display = 'block';
+        document.getElementById('success-panel').style.display = 'none';
+
+        showScreen('screen-review');
+
+      } catch (err) {
+        showError('Failed to confirm basket selections.');
+      }
+    }
+
+    function backToCatalogue() {
+      showScreen('screen-catalogue');
+    }
+
+    async function executeSubmit() {
+      if (!state.confirmToken) {
+        showError('Missing confirmation token. Please go back and confirm again.');
+        return;
+      }
+
+      try {
+        const executeResp = await fetchAPI('/api/session/submit/execute', {
+          method: 'POST',
+          body: JSON.stringify({ hitl_token: state.confirmToken })
+        });
+
+        document.getElementById('success-ref').textContent = executeResp.reference;
+        document.getElementById('review-submission-flow').style.display = 'none';
+        document.getElementById('success-panel').style.display = 'flex';
+
+      } catch (err) {
+        showError(err.message || 'Execution submission failed. Please try again.');
+      }
+    }
+
+    function resetApp() {
+      // Clear local memory
+      state = {
+        profile: null,
+        submissionMode: 'self',
+        catalogue: [],
+        basket: {
+          items: [],
+          challenges: [],
+          totals: { total_cost: 0, total_ts: 0, grand_total: 0 },
+          basket_overrides: {}
+        },
+        chatHistory: [],
+        searchQuery: '',
+        categoryFilter: '',
+        activeOverrideId: null,
+        confirmToken: null
+      };
+
+      // Reset DOM fields
+      document.getElementById('work-email').value = '';
+      document.getElementById('identity-auth-section').style.display = 'block';
+      document.getElementById('identity-profile-section').style.display = 'none';
+      document.getElementById('header-user-tag').style.display = 'none';
+      document.getElementById('chat-messages').innerHTML = `
+        <div class="chat-bubble chat-bubble-agent">
+          Hello! I'm your Training Advisor. As you build your basket, I'll evaluate the compliance, eligibility, and operational validity of the selections. Feel free to respond to challenges in the chat below.
+        </div>
+      `;
+
+      showScreen('screen-identity');
+    }
+  </script>
+</body>
+</html>

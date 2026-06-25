@@ -2,14 +2,14 @@
 
 ## Status
 
-IN PROGRESS — Stage 8 steps 8.1–8.2 complete (`src/models.py`, `src/security.py` verified).
+IN PROGRESS — Stage 8 steps 8.1–8.10 complete.
 
 ## Next
 
-Step 8.3 (Antigravity) — copy prompt from build-stage.html, execute in Google Antigravity:
-→ generates `src/mcp/catalogue_server.py`
+Step 8.11 (Antigravity) — copy prompt from build-stage.html, execute in Google Antigravity:
+→ generates `src/skills/briefing.py` + `app/briefing/agent.py` + agents-cli enhance
 
-Then continue 8.4 → 8.12 sequentially via Antigravity prompts.
+Then continue 8.11 → 8.12 sequentially via Antigravity prompts.
 Claude Code resumes at Step 8.13 (deploy_agents.sh) and 8.14 (Dockerfile.web + deploy_web.sh).
 
 ## Context
@@ -31,14 +31,14 @@ Claude Code resumes at Step 8.13 (deploy_agents.sh) and 8.14 (Dockerfile.web + d
 
 - [x] 8.1 Antigravity → `src/models.py`
 - [x] 8.2 Antigravity → `src/security.py`
-- [ ] 8.3 Antigravity → `src/mcp/catalogue_server.py`
-- [ ] 8.4 Antigravity → `src/mcp/workday_server.py`
-- [ ] 8.5 Antigravity → `src/mcp/submissions_server.py`
-- [ ] 8.6 Antigravity → `src/validators.py`
-- [ ] 8.7 Antigravity → `src/skills/fetch.py`
-- [ ] 8.8 Antigravity → `app/challenger/agent.py` + agents-cli enhance
-- [ ] 8.9 Antigravity → `src/web/app.py`
-- [ ] 8.10 Antigravity → `static/index.html`
+- [x] 8.3 Antigravity → `src/mcp/catalogue_server.py`
+- [x] 8.4 Antigravity → `src/mcp/workday_server.py`
+- [x] 8.5 Antigravity → `src/mcp/submissions_server.py`
+- [x] 8.6 Antigravity → `src/validators.py`
+- [x] 8.7 Antigravity → `src/skills/fetch.py`
+- [x] 8.8 Antigravity → `app/challenger/agent.py` + agents-cli enhance
+- [x] 8.9 Antigravity → `src/web/app.py` + `src/startup.py`
+- [x] 8.10 Antigravity → `static/index.html` (+ app.py: DirectReportInfo, /api/session/mode, GET /api/session/basket, basket_overrides)
 - [ ] 8.11 Antigravity → `src/skills/briefing.py` + `app/briefing/agent.py` + agents-cli enhance
 - [ ] 8.12 Antigravity → `eval/harness.py`
 - [ ] 8.13 Claude Code → `deploy_agents.sh`, `verify_deployment.sh`
