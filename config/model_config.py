@@ -10,3 +10,7 @@ VERTEX_AI_MODEL = os.environ.get("VERTEX_AI_MODEL", "gemini-1.5-pro")
 CHALLENGER_GEN_CONFIG = types.GenerateContentConfig(
     temperature=0.2,
 )
+
+BRIEFING_GEN_CONFIG = types.GenerateContentConfig(
+    temperature=0.1,
+)
