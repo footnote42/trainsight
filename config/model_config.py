@@ -14,3 +14,10 @@ CHALLENGER_GEN_CONFIG = types.GenerateContentConfig(
 BRIEFING_GEN_CONFIG = types.GenerateContentConfig(
     temperature=0.1,
 )
+
+# LLM judge (evaluation harness) — temperature=0.0 for deterministic scoring
+JUDGE_CONFIG = types.GenerateContentConfig(
+    temperature=0.0,
+    max_output_tokens=512,
+)
+

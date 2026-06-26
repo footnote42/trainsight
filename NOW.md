@@ -2,15 +2,12 @@
 
 ## Status
 
-IN PROGRESS — Stage 8 steps 8.1–8.10 complete.
+IN PROGRESS — Stage 8 steps 8.1–8.12 complete.
 
 ## Next
 
-Step 8.11 (Antigravity) — copy prompt from build-stage.html, execute in Google Antigravity:
-→ generates `src/skills/briefing.py` + `app/briefing/agent.py` + agents-cli enhance
-
-Then continue 8.11 → 8.12 sequentially via Antigravity prompts.
-Claude Code resumes at Step 8.13 (deploy_agents.sh) and 8.14 (Dockerfile.web + deploy_web.sh).
+Step 8.13 (Claude Code) → `deploy_agents.sh`, `verify_deployment.sh`
+Step 8.14 (Claude Code) → `Dockerfile.web`, `.dockerignore`, `deploy_web.sh`
 
 ## Context
 
@@ -39,8 +36,8 @@ Claude Code resumes at Step 8.13 (deploy_agents.sh) and 8.14 (Dockerfile.web + d
 - [x] 8.8 Antigravity → `app/challenger/agent.py` + agents-cli enhance
 - [x] 8.9 Antigravity → `src/web/app.py` + `src/startup.py`
 - [x] 8.10 Antigravity → `static/index.html` (+ app.py: DirectReportInfo, /api/session/mode, GET /api/session/basket, basket_overrides)
-- [ ] 8.11 Antigravity → `src/skills/briefing.py` + `app/briefing/agent.py` + agents-cli enhance
-- [ ] 8.12 Antigravity → `eval/harness.py`
+- [x] 8.11 Claude Code + Antigravity → `src/skills/briefing.py` + `app/briefing/agent.py` + agents-cli enhance
+- [x] 8.12 Antigravity → `eval/harness.py` (+ 2 bug fixes by Claude Code: md_path, delta details)
 - [ ] 8.13 Claude Code → `deploy_agents.sh`, `verify_deployment.sh`
 - [ ] 8.14 Claude Code → `Dockerfile.web`, `.dockerignore`, `deploy_web.sh`
 
@@ -58,4 +55,4 @@ event type and _assert_no_pii audit logging spec.
 
 ## Last session
 
-2026-06-25 — UI preview validated via offline stub (index.dev.html); all 3 screens rendered correctly; no regressions found.
+2026-06-26 — Steps 8.11 and 8.12 complete. 8.11: Manager Briefing agent + skills (Claude Code). 8.12: eval/harness.py (Antigravity), two bugs fixed (md_path ValueError, delta re-run empty details crash).
