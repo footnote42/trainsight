@@ -18,6 +18,38 @@ from src.security import write_audit_entry
 from src.mcp.submissions_server import get_submissions
 
 
+def _as_basket_item(d) -> BasketItem:
+    return d if isinstance(d, BasketItem) else BasketItem(**d)
+
+
+def _as_submission_record(d) -> SubmissionRecord:
+    if isinstance(d, SubmissionRecord):
+        return d
+    return SubmissionRecord(**{**d, "items": [_as_basket_item(i) for i in d["items"]]})
+
+
+def _as_aggregated_data(d) -> AggregatedData:
+    # When these skills are chained by the LLM (adk run, not a direct Python call),
+    # ADK serialises each tool's dataclass return value to a dict for the model's
+    # context, and the model passes that dict back as the next tool's argument. Plain
+    # dataclasses aren't auto-reconstructed from dicts the way Pydantic models are, so
+    # every multi-hop tool call here needs this coercion or it fails with attribute
+    # errors on what looks like a dataclass but is actually a dict.
+    if isinstance(d, AggregatedData):
+        return d
+    return AggregatedData(
+        **{**d, "submissions": [_as_submission_record(s) for s in d["submissions"]]}
+    )
+
+
+def _as_budget_summary(d) -> BudgetSummary:
+    return d if isinstance(d, BudgetSummary) else BudgetSummary(**d)
+
+
+def _as_anomaly_report(d) -> AnomalyReport:
+    return d if isinstance(d, AnomalyReport) else AnomalyReport(**d)
+
+
 def aggregate_submissions(period: str) -> AggregatedData:
     """Aggregate all submissions for a period from the submissions store."""
     submissions: list[SubmissionRecord] = get_submissions(period=period)
@@ -63,6 +95,7 @@ def aggregate_submissions(period: str) -> AggregatedData:
 
 def calculate_budget_estimate(data: AggregatedData) -> BudgetSummary:
     """Compute budget summary from aggregated submission data. No MCP calls."""
+    data = _as_aggregated_data(data)
     grand_total = data.total_cost + data.total_ts
     total_spend = grand_total
 
@@ -103,6 +136,7 @@ def calculate_budget_estimate(data: AggregatedData) -> BudgetSummary:
 
 def flag_anomalies(data: AggregatedData) -> AnomalyReport:
     """Identify anomalies in aggregated submission data. No MCP calls."""
+    data = _as_aggregated_data(data)
     priority_inflation: list[dict] = []
     for r in data.submissions:
         if r.submitted_by != "lm" or not r.items:
@@ -192,6 +226,8 @@ def _derive_next_steps(anomalies: AnomalyReport) -> list[str]:
 
 def generate_report(summary: BudgetSummary, anomalies: AnomalyReport) -> str:
     """Produce a structured markdown briefing report. Writes briefing_report_generated audit entry."""
+    summary = _as_budget_summary(summary)
+    anomalies = _as_anomaly_report(anomalies)
     lines: list[str] = []
 
     # --- Summary ---

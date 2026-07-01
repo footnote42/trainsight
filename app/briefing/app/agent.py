@@ -38,7 +38,11 @@ Your output is a single markdown document with exactly these sections in order:
 ## Summary, ## Course Demand, ## Anomalies, ## Budget by Department,
 ## Recommended Next Steps, ## Audit Trail.
 Do not add sections or omit sections. The Recommended Next Steps section
-contains at most five bullet points."""
+contains at most five bullet points.
+Your final response to the user must BE this markdown document, reproduced verbatim
+from the generate_report tool's return value. Do not summarise, paraphrase, or refer
+to it as already shown — the tool's return value is not visible to the user unless
+you include it directly in your response."""
 
 root_agent = Agent(
     name="manager_briefing",
