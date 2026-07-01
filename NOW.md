@@ -1,20 +1,21 @@
 # NOW — trainsight
 
 ## Status
-DONE — Step 8.14 complete, trainsight-web live on Cloud Run.
+DONE — Stage 9 evaluation complete, all thresholds pass. No prompt tuning needed.
 
 ## Next
-Run `python eval/harness.py --scenario all --output eval/results/smoke.json` against the live setup, then record the demo video (submission-stage.html demo-video stage now unblocked).
+Stage 10 — README.md (10.1), code comments audit (10.2), Kaggle writeup draft (10.3). Eval numbers below are ready to drop into both.
 
 ## Context
 - Obsidian: `C:/Users/kenho/Obsidian/Second Brain/Projects/Kaggle-Capstone/`
 - Build plan: `C:/Users/kenho/.claude/plans/confirm-progress-of-the-purring-pillow.md`
 - Submission tracker: `C:/Users/kenho/Obsidian/Second Brain/Projects/Kaggle-Capstone/submission-stage.html`
 - Live URL: https://trainsight-web-498756534840.us-central1.run.app
+- Eval results: `eval/results/full_001.md`, `eval/results/rules_001.md`
 - Deadline: 6 July 2026
 
 ## Blocker
 None.
 
 ## Last session
-2026-07-01 — Fixed gemini-3.1-flash-lite 404 (nonexistent model name, switched to gemini-2.5-flash-lite), redeployed agents (Step 8.13). Generated and deployed Step 8.14 Cloud Run config for trainsight-web, fixing 5 real bugs along the way (SessionMiddleware hardcoded secret, missing GOOGLE_GENAI_USE_VERTEXAI, bash `else:` syntax bug, nonexistent `gcloud --dockerfile` flag, missing `fastmcp` dependency). Live and verified — see DECISIONS.md and git log for full detail.
+2026-07-01 — Fixed gemini-3.1-flash-lite 404, redeployed agents (8.13). Deployed trainsight-web to Cloud Run (8.14), fixing 5 real bugs along the way. Ran Stage 9 full LLM eval + rules-only baseline: correctness 10/10 tuned, 5/5 held-out; judge avg 10.0/9.75 (>=7 required); tone min 3/3 (>=2 required). Delta vs rules-only: judge total +0.63, tone +0.25, justification +0.38. All thresholds pass — no Challenger prompt tuning needed.
