@@ -1,0 +1,9 @@
+.git
+.gcloudignore
+.env
+__pycache__
+*.pyc
+data/audit.log
+app/
+.venv/
+eval/

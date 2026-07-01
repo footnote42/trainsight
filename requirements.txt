@@ -1,5 +1,6 @@
 google-adk
 google-cloud-aiplatform
+fastmcp
 fastapi
 uvicorn[standard]
 python-dotenv

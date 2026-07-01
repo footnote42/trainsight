@@ -98,7 +98,7 @@ echo "Model: $VERTEX_AI_MODEL"
 echo "Google GenAI VertexAI mode: $GOOGLE_GENAI_USE_VERTEXAI"
 
 gcloud run deploy trainsight-web \
-  --dockerfile Dockerfile.web \
+  --source . \
   --memory 512Mi \
   --cpu 1 \
   --min-instances 1 \

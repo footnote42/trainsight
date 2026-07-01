@@ -1,12 +1,13 @@
 # NOW — trainsight
 
 ## Status
-Step 8.13 DONE. Step 8.14 config generated (Dockerfile.web, .dockerignore, deploy_web.sh, cloud_run_reference.yaml) — actual Cloud Run deploy not yet run.
+Step 8.14 DONE — trainsight-web live on Cloud Run: https://trainsight-web-498756534840.us-central1.run.app
+`/api/health` and `/` both confirmed 200.
 
 ## Next
-1. Run `./deploy_web.sh` to deploy `trainsight-web` to Cloud Run.
-2. Note the Cloud Run URL from output; `curl <url>/api/health` should return `{"status":"ok",...}`.
-3. Run `python eval/harness.py --scenario all --output eval/results/smoke.json` for a full local confirmation once web layer is up.
+1. Run `python eval/harness.py --scenario all --output eval/results/smoke.json` for a full confirmation against the live setup.
+2. Record demo video (submission-stage.html — was blocked on a live Cloud Run URL, now unblocked).
+3. Fill in [LIVE_URL] placeholders in submission drafts with the URL above.
 
 ## Context
 - Obsidian: `C:/Users/kenho/Obsidian/Second Brain/Projects/Kaggle-Capstone/`
@@ -32,8 +33,18 @@ Gemini call (src/web/app.py:278) needs GOOGLE_GENAI_USE_VERTEXAI=true or it sile
 Post-generation review found a real bug in the generated deploy_web.sh: line 74 used Python-style `else:` instead of
 bash `else` — bash -n doesn't flag it (not a parse error, just an unrecognized command), but at runtime it silently
 skipped persisting the generated SESSION_SECRET_KEY to .env, so every deploy would've regenerated a new key and
-invalidated all sessions. Fixed directly (`else:` → `else`), repro-verified the fix. Not yet deployed — `./deploy_web.sh`
-still pending.
+invalidated all sessions. Fixed directly (`else:` → `else`), repro-verified.
+
+Ran `./deploy_web.sh` — hit two more real bugs, both fixed:
+1. `gcloud run deploy` has no `--dockerfile` flag (Antigravity's plan invented it) — only `--source`, which requires
+   a file literally named `Dockerfile`, not `Dockerfile.web`. Renamed the file, switched deploy_web.sh to `--source .`,
+   and added `.gcloudignore` (mirroring .dockerignore) so the ~1GB `app/`/`.venv` dirs aren't uploaded to Cloud Build.
+2. Container crashed on boot: `ModuleNotFoundError: No module named 'fastmcp'`. src/mcp/*.py import fastmcp directly,
+   but it was never in requirements.txt — only present because it's a dep pulled in by the agents-cli scaffold's own
+   venvs, not by the web image's pip install. Added `fastmcp` to requirements.txt.
+
+Redeployed successfully: https://trainsight-web-498756534840.us-central1.run.app — `/api/health` and `/` both 200.
+Step 8.14 complete.
 
 2026-07-01 — Diagnosed the recurring gemini-3.1-flash-lite 404 as a nonexistent model name (confirmed via direct
 Vertex REST calls), not a ToS blocker. Switched default model to `gemini-2.5-flash-lite` across config/model_config.py,
