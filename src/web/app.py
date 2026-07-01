@@ -77,6 +77,9 @@ app = FastAPI(title="trainsight-web", version="1.0.0")
 
 app.add_middleware(
     SessionMiddleware,
+    # Fallback string exists only so the app boots without a .env for local smoke-testing;
+    # deploy_web.sh always generates and injects a real SESSION_SECRET_KEY before deploy
+    # (see deploy_web.sh), so the hardcoded value below is never the one used in Cloud Run.
     secret_key=os.environ.get("SESSION_SECRET_KEY", "trainsight-secret-key-12345")
 )
 
@@ -604,6 +607,11 @@ async def challenge_override(body: ChallengeOverrideRequest, request: Request, s
 
 @app.post("/api/session/submit/confirm", response_model=SubmitConfirmResponse)
 async def submit_confirm(request: Request, session_info: Dict[str, Any] = Depends(get_session_info)):
+    # HITL is a two-request flow, not a single call: this endpoint only re-evaluates the
+    # basket, issues a token, and shows the review screen — it performs no write. The token
+    # from here must be echoed back to /submit/execute below, where it's consumed and the
+    # actual submissions-mcp write happens. A user who never clicks "confirm" on the review
+    # screen never reaches a write path.
     basket = request.session.get("basket", [])
     if not basket:
         raise HTTPException(
@@ -701,6 +709,10 @@ async def submit_execute(body: SubmitExecuteRequest, request: Request, session_i
         )
 
     # 1. Retrieve the token from store first (validates existence)
+    # _token_store (src/security.py) is a plain in-process dict, not backed by Redis/DB.
+    # This is why deploy_web.sh pins Cloud Run to min-instances=1, max-instances=2: a token
+    # issued by /submit/confirm on one instance must be readable here on the same instance,
+    # so this endpoint can't scale across multiple cold instances without losing tokens.
     token_obj = _token_store.get(body.hitl_token)
     if not token_obj:
         raise HTTPException(
@@ -773,6 +785,9 @@ async def submit_execute(body: SubmitExecuteRequest, request: Request, session_i
             detail=str(val_err)
         )
     except Exception as exc:
+        # No submissions-mcp write occurs on this path — submit_request (src/skills/fetch.py)
+        # validates the token and writes the audit failure entry before attempting the MCP
+        # call, so a zero-records-written outcome always still leaves an audit trail.
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Submission failed: {exc}"

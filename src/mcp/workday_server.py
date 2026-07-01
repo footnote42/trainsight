@@ -43,6 +43,11 @@ _BY_EMAIL: dict[str, PersonProfile] = {}
 
 with _WORKDAY_PATH.open(encoding="utf-8") as fh:
     for row in csv.DictReader(fh):
+        # workday.csv has name, email, and age_band columns (it mirrors a real Workday
+        # export). PersonProfile below simply never reads them into a field — that
+        # column-level exclusion at load time IS the PII scrub, not a downstream filter
+        # applied after the fact. row["email"] is read once, purely as a dict key for
+        # get_profile's lookup, and is never stored on the profile object itself.
         direct_reports = [r for r in row["direct_reports"].split("|") if r]
         profile = PersonProfile(
             person_id=row["workday_id"],

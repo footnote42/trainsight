@@ -109,6 +109,10 @@ def check_priority_inflation(
     high_count = sum(1 for i in basket if i.priority == "High")
     ratio = high_count / len(basket)
 
+    # 60% chosen as the inflation threshold per EVALUATION.md scenario design: a genuinely
+    # urgent basket skews High but rarely exceeds 60%; anything above that is treated as
+    # picklist misuse rather than a real priority signal. Strict > so exactly 60% passes
+    # (see Scenario boundary test in __main__ below).
     if ratio > 0.60:
         return ChallengeResult(
             type="priority_inflation",
@@ -130,6 +134,10 @@ def check_reason_coherence(
     course: CourseRecord,
 ) -> Optional[CoherenceInput]:
     """Pure Python pre-filter to check if LLM reason coherence check is needed."""
+    # Gate on course.category (a fixed catalogue field), not course.title (free text)
+    # or description — title/description phrasing is inconsistent and would make this
+    # check flaky. category is curated by the training manager, so it's the reliable
+    # signal for "this is PD-type content" independent of how the course happens to be named.
     if item.reason == "Critical/Scarce Skill" and course.category in PD_CATEGORIES:
         return CoherenceInput(
             course_id=course.course_id,
@@ -153,6 +161,10 @@ def check_quantity(
     if team_size == 0:
         return None
 
+    # 1.5 courses/head is the LM submission norm observed in the seeded scenarios (clean
+    # LM submission, Scenario 5, sits at/below this ratio). >= so exactly 1.5 fires —
+    # unlike priority inflation, quantity is a softer signal and erring toward flagging
+    # the boundary case is preferred over missing an inflated LM basket.
     ratio = len(basket) / team_size
     if ratio >= 1.5:
         return ChallengeResult(

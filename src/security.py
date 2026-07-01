@@ -81,9 +81,15 @@ def validate_and_consume_token(
     if now > datetime.fromisoformat(tok.expires_at):
         raise ValueError("Token expired")
         
+    # Binds the token to the exact basket the user confirmed — if the basket changed
+    # between issuing the token and calling submit (another tab, a race, a bug), the
+    # token no longer matches and the write is refused rather than committing stale intent.
     if _compute_basket_hash(basket) != tok.basket_hash:
         raise ValueError("Basket contents changed since confirmation")
-        
+
+    # used=True is set here, before the caller performs the submissions-mcp write, not
+    # after (TR-SEC-002). If it were set post-write, a crash between write and marking-used
+    # would leave the token valid for replay against the same MCP call.
     tok.used = True
     return tok
 
@@ -128,7 +134,13 @@ _EMAIL_PII_PATTERN = re.compile(
 _JSON_PII_PATTERN = re.compile(r'"(name|email|age_band)"\s*:', re.IGNORECASE)
 
 def _pii_guard(text: str) -> str:
-    """Scans free text for PII leakage in non-structural paths and redacts it."""
+    """Scans free text for PII leakage in non-structural paths and redacts it.
+
+    Defence-in-depth, not the primary control: _assert_no_pii enforces the PII boundary
+    at the PersonProfile level (workday-mcp scrub), before any data reaches the LLM. This
+    guard catches PII that leaks into LLM-generated free text (challenge wording, briefing
+    prose) after that point — a second layer, not a replacement for the upstream scrub.
+    """
     has_match = False
     
     # Check for PII presence

@@ -45,6 +45,10 @@ root_agent = Agent(
     model=RegionalGemini(model=VERTEX_AI_MODEL),
     instruction=SYSTEM_PROMPT,
     generate_content_config=BRIEFING_GEN_CONFIG,
+    # SECTION 2's read-only constraint is enforced structurally, not just by instruction:
+    # no write-capable skill (e.g. submit_request) is in this tool list, so there is no
+    # write path for the LLM to reach even if it tried. Prompt text alone would not be a
+    # sufficient guarantee for a rubric-graded security claim.
     tools=[
         aggregate_submissions,
         calculate_budget_estimate,

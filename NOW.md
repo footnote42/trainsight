@@ -1,10 +1,10 @@
 # NOW — trainsight
 
 ## Status
-DONE — Stage 9 evaluation complete, all thresholds pass. No prompt tuning needed.
+DONE — README.md, code comments audit (6 files), and writeup.md draft all complete.
 
 ## Next
-Stage 10 — README.md (10.1), code comments audit (10.2), Kaggle writeup draft (10.3). Eval numbers below are ready to drop into both.
+10.4 cover image, 10.5 demo video recording, 10.6 Kaggle submission entry — all "You" tasks. writeup.md has one placeholder left ([YOUTUBE_URL]), filled after 10.5.
 
 ## Context
 - Obsidian: `C:/Users/kenho/Obsidian/Second Brain/Projects/Kaggle-Capstone/`
@@ -12,10 +12,11 @@ Stage 10 — README.md (10.1), code comments audit (10.2), Kaggle writeup draft 
 - Submission tracker: `C:/Users/kenho/Obsidian/Second Brain/Projects/Kaggle-Capstone/submission-stage.html`
 - Live URL: https://trainsight-web-498756534840.us-central1.run.app
 - Eval results: `eval/results/full_001.md`, `eval/results/rules_001.md`
+- Writeup: `writeup.md` (1,500 / 2,500 words)
 - Deadline: 6 July 2026
 
 ## Blocker
 None.
 
 ## Last session
-2026-07-01 — Fixed gemini-3.1-flash-lite 404, redeployed agents (8.13). Deployed trainsight-web to Cloud Run (8.14), fixing 5 real bugs along the way. Ran Stage 9 full LLM eval + rules-only baseline: correctness 10/10 tuned, 5/5 held-out; judge avg 10.0/9.75 (>=7 required); tone min 3/3 (>=2 required). Delta vs rules-only: judge total +0.63, tone +0.25, justification +0.38. All thresholds pass — no Challenger prompt tuning needed.
+2026-07-01 — Ran Stage 9 eval (all thresholds pass, no prompt tuning needed). Stage 10: rewrote README.md (problem, solution, architecture, concept table, setup, eval results), added WHY-only comments to the 6 rubric-priority files (src/validators.py, src/security.py, app/challenger/app/agent.py, app/briefing/app/agent.py, src/web/app.py, src/mcp/workday_server.py) and re-ran all self-checks clean, drafted writeup.md (1,500 words) from PRD/SAFETY/EVALUATION source material.

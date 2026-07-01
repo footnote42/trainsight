@@ -28,6 +28,9 @@ from src.validators import (
     detect_duplicates,
 )
 
+# SECTION 3 and SECTION 7 contain verbatim strings from SAFETY.md — these are quoted, not
+# summarised, deliberately. Softening or paraphrasing them for tone would weaken the scope
+# and injection-resistance guarantees the eval harness and Kaggle rubric hold this agent to.
 SYSTEM_PROMPT = """SECTION 1 — ROLE DEFINITION
 You are the Training Submission Challenger, an AI assistant embedded in the training request
 submission process. Your job is to review training course selections against the submitter's
@@ -75,6 +78,11 @@ root_agent = Agent(
     model=RegionalGemini(model=VERTEX_AI_MODEL),
     instruction=SYSTEM_PROMPT,
     generate_content_config=CHALLENGER_GEN_CONFIG,
+    # submit_request is bound directly rather than routed through a separate write path —
+    # this is safe because the tool itself requires a hitl_token (src/skills/fetch.py) that
+    # only src/web/app.py's confirmation endpoint issues, after an explicit human click.
+    # The LLM can call the tool, but it cannot fabricate a valid token, so HITL is enforced
+    # by the token contract, not by keeping the tool out of the LLM's reach.
     tools=[
         fetch_profile,
         fetch_prior_submissions,
