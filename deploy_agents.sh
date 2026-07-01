@@ -63,8 +63,11 @@ echo "Deploying Briefing Agent (this may take several minutes)..."
 (cd app/briefing && uv run python "$RUN_ACLI" deploy --project="$PROJECT_ID" --no-confirm-project --update-env-vars "VERTEX_AI_LOCATION=${VERTEX_AI_LOCATION},VERTEX_AI_MODEL=${VERTEX_AI_MODEL}")
 
 echo "=== Step 4: Extract runtime IDs and update .env ==="
-CHALLENGER_ID=$(python -c "import json; print(json.load(open('app/challenger/deployment_metadata.json'))['remote_agent_runtime_id'])" 2>/dev/null)
-BRIEFING_ID=$(python -c "import json; print(json.load(open('app/briefing/deployment_metadata.json'))['remote_agent_runtime_id'])" 2>/dev/null)
+# remote_agent_runtime_id is the full resource path (projects/.../locations/.../reasoningEngines/<id>).
+# VertexAiSessionService.agent_engine_id must be the bare numeric ID - it uses the value
+# verbatim to build "reasoningEngines/{id}" and does not parse a full path out of it.
+CHALLENGER_ID=$(python -c "import json; print(json.load(open('app/challenger/deployment_metadata.json'))['remote_agent_runtime_id'].rsplit('/', 1)[-1])" 2>/dev/null)
+BRIEFING_ID=$(python -c "import json; print(json.load(open('app/briefing/deployment_metadata.json'))['remote_agent_runtime_id'].rsplit('/', 1)[-1])" 2>/dev/null)
 
 if [ -z "$CHALLENGER_ID" ] || [ "$CHALLENGER_ID" = "None" ]; then
   echo "Error: Challenger Agent Runtime ID is empty or 'None'."

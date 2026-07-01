@@ -64,11 +64,20 @@ from config.model_config import VERTEX_AI_MODEL
 CHALLENGER_AGENT_RUNTIME_ID = os.environ["CHALLENGER_AGENT_RUNTIME_ID"]
 GOOGLE_CLOUD_PROJECT = os.environ["GOOGLE_CLOUD_PROJECT"]
 VERTEX_AI_LOCATION = os.environ.get("VERTEX_AI_LOCATION", "us-central1")
+# Deliberately separate from VERTEX_AI_LOCATION: that var also drives this Cloud Run
+# service's own --region and the deployed agents' Gemini call region (set independently
+# via deploy_agents.sh). The Agent Runtime resource (reasoningEngines) can live in a
+# different region than any of those — agents-cli currently places it in us-east1
+# regardless of VERTEX_AI_LOCATION — so it needs its own knob.
+AGENT_RUNTIME_LOCATION = os.environ.get("AGENT_RUNTIME_LOCATION", "us-east1")
 
 # Instantiate remote session service
+# agent_engine_id must be the bare numeric reasoning engine ID, not the full resource
+# path — VertexAiSessionService uses it verbatim to build "reasoningEngines/{id}" and
+# does not parse a full path out of it if the field is already set.
 session_service = VertexAiSessionService(
     project=GOOGLE_CLOUD_PROJECT,
-    location=VERTEX_AI_LOCATION,
+    location=AGENT_RUNTIME_LOCATION,
     agent_engine_id=CHALLENGER_AGENT_RUNTIME_ID
 )
 
