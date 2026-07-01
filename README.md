@@ -39,7 +39,7 @@ Challenge firing is deterministic Python (`src/validators.py`); the LLM's job is
 | Antigravity | `UX-DESIGN.md` / `PRD.md` git-dated before any `src/` commit | Video |
 | Security | Pre-LLM PII scrub, HITL gate, least-privilege MCP access, injection sanitisation, audit log | Code + Video |
 | Deployability | Docker container on Cloud Run, live HTTPS URL | Video |
-| Agent Skills (Agents CLI) | `adk run manager-briefing` | Code + Video |
+| Agent Skills (Agents CLI) | `adk run app/briefing` | Code + Video |
 
 ## Setup
 
@@ -65,7 +65,7 @@ Required env vars: `GOOGLE_CLOUD_PROJECT`, `CHALLENGER_AGENT_RUNTIME_ID`, `BRIEF
 Manager Briefing CLI:
 
 ```bash
-adk run manager-briefing --period 2026-Q2 --output briefing-2026-Q2.md
+adk run app/briefing "Generate a briefing report for period 2026-Q2" > briefing-2026-Q2.md
 ```
 
 ## Demo

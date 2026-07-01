@@ -16,7 +16,7 @@ trainsight puts a challenge agent into the submission flow itself, before a requ
 
 **Submission Challenger** — a web app where staff and line managers select courses and submit. As courses are added, the agent reviews each selection against the submitter's role profile and any prior submissions for the team, and raises a challenge where something doesn't hold up. Five challenge types: role eligibility (course doesn't match the submitter's job family), priority inflation (over 60% of a basket marked High), reason coherence (a professional-development course classified as a genuine skill gap), quantity (course volume disproportionate to team size, line-manager submissions only), and duplicates (the same course submitted twice for the same person). The submitter can respond, revise, or override with a written justification — nothing writes to the submissions store without an explicit human confirmation click.
 
-**Manager Briefing** — a CLI agent the training manager runs after the deadline closes (`adk run manager-briefing --period 2026-Q2`). It aggregates every submission for the period and produces a markdown report: cost totals, course demand ranking, unresolved flags, and — the headline figure — a **questionable-spend total**, the estimated cost attached to flagged, duplicated, or inflated requests, expressed against total requested spend. That single number is what demonstrates value recovered, both to an enterprise sponsor and for this writeup.
+**Manager Briefing** — a CLI agent the training manager runs after the deadline closes (`adk run app/briefing "Generate a briefing report for period 2026-Q2"`). It aggregates every submission for the period and produces a markdown report: cost totals, course demand ranking, unresolved flags, and — the headline figure — a **questionable-spend total**, the estimated cost attached to flagged, duplicated, or inflated requests, expressed against total requested spend. That single number is what demonstrates value recovered, both to an enterprise sponsor and for this writeup.
 
 What it deliberately doesn't do: approve or reject requests, check training history, suggest alternative courses, comment on individual performance, or connect to the real Power App/SharePoint. All decisions stay with the training manager — the agent's job is to improve the quality of the data they receive, not to replace their judgement.
 
@@ -48,7 +48,7 @@ The two agents run on Vertex AI Agent Runtime; the web UI and its three in-proce
 | Antigravity | `PRD.md` and `UX-DESIGN.md` git-committed before any `src/` code — the design was written and reviewed before implementation began, and the git history shows it | Video |
 | Security | Pre-LLM PII scrub, HITL gate before every write, least-privilege MCP access split by sensitivity, prompt-injection sanitisation on catalogue text, append-only audit log | Code + Video |
 | Deployability | Single Docker container; live HTTPS URL on Cloud Run | Video |
-| Agent Skills (Agents CLI) | Manager Briefing invoked via `adk run manager-briefing` | Code + Video |
+| Agent Skills (Agents CLI) | Manager Briefing invoked via `adk run app/briefing` | Code + Video |
 
 All six are demonstrated; the rubric requires three.
 
