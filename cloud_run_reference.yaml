@@ -1,0 +1,24 @@
+# Reference YAML configuration block for Google Cloud Run service definition (Knative spec)
+# Add this under the container spec (spec.template.spec.containers[0])
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: trainsight-web
+  namespace: '498756534840'
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/kaggle-day-five/trainsight-web:latest
+          ports:
+            - containerPort: 8080
+          # Startup probe definition
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6

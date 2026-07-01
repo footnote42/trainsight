@@ -32,7 +32,8 @@ class ToolError(FastMCPToolError):
 # Bootstrap — load data/workday.csv into two lookup dicts
 # ---------------------------------------------------------------------------
 
-_WORKDAY_PATH = Path("data/workday.csv")
+_WORKSPACE_ROOT = Path(__file__).parent.parent.parent.resolve()
+_WORKDAY_PATH = _WORKSPACE_ROOT / "data" / "workday.csv"
 
 if not _WORKDAY_PATH.exists():
     raise FileNotFoundError(f"Workday file not found at {_WORKDAY_PATH}")

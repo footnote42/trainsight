@@ -22,7 +22,8 @@ class ToolError(FastMCPToolError):
 mcp = FastMCP("catalogue-server")
 
 # Load and validate data/catalogue.json
-CATALOGUE_PATH = Path("data/catalogue.json")
+WORKSPACE_ROOT = Path(__file__).parent.parent.parent.resolve()
+CATALOGUE_PATH = WORKSPACE_ROOT / "data" / "catalogue.json"
 
 if not CATALOGUE_PATH.exists():
     raise FileNotFoundError(f"Catalogue file not found at {CATALOGUE_PATH}")

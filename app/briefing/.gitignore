@@ -1,0 +1,9 @@
+
+# Shared folders copied for deployment
+/src/
+/config/
+/data/
+
+/app/src/
+/app/config/
+/app/data/

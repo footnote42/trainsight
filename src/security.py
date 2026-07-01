@@ -149,6 +149,9 @@ def _pii_guard(text: str) -> str:
 
 # 7. Audit Log Writer
 AUDIT_LOG_PATH = Path(os.environ.get("AUDIT_LOG_PATH", "data/audit.log"))
+if not AUDIT_LOG_PATH.is_absolute():
+    WORKSPACE_ROOT = Path(__file__).parent.parent.resolve()
+    AUDIT_LOG_PATH = WORKSPACE_ROOT / AUDIT_LOG_PATH
 _audit_lock = threading.Lock()
 
 def write_audit_entry(entry: AuditLogEntry) -> None:
