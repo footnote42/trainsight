@@ -1,10 +1,10 @@
 # NOW — trainsight
 
 ## Status
-IN PROGRESS — demo video (10.5). README/writeup/comments (10.1-10.3) done. Live app had a real bug, now fixed.
+IN PROGRESS — demo video (10.5) is the only thing left before Stage 10 wraps. Both playtest scripts written. Three real bugs found and fixed this session (see Last session).
 
 ## Next
-Record the actual narrated 5-min video yourself (mic, screen recorder, YouTube upload — outside what I can execute). Reference material below has exact login emails, baskets, and expected challenges per scenario so you don't have to reconstruct them. Then fill [YOUTUBE_URL] in README.md and writeup.md.
+Record the actual narrated 5-min video yourself (mic, screen recorder, YouTube upload — outside what I can execute). `PLAYTEST-SUBMITTER.md` and `PLAYTEST-MANAGER.md` (project root) have everything needed — exact logins, baskets, expected results, and the verified-correct `adk run app/briefing "..."` command. Then fill [YOUTUBE_URL] in README.md and writeup.md.
 
 ## Context
 - Obsidian: `C:/Users/kenho/Obsidian/Second Brain/Projects/Kaggle-Capstone/`
@@ -13,6 +13,7 @@ Record the actual narrated 5-min video yourself (mic, screen recorder, YouTube u
 - Live URL: https://trainsight-web-498756534840.us-central1.run.app
 - Eval results: `eval/results/full_001.md`, `eval/results/rules_001.md`
 - Writeup: `writeup.md` (1,500 / 2,500 words, [YOUTUBE_URL] placeholder pending)
+- Playtest scripts: `PLAYTEST-SUBMITTER.md`, `PLAYTEST-MANAGER.md` (project root)
 - Video script (5-min beat sheet): `submission-stage.html` stage 10.5
 - Reference GIF from browser walkthrough: `scenario4-role-eligibility-challenge.gif` (Downloads)
 - Deadline: 6 July 2026
@@ -56,7 +57,7 @@ Expected: no challenges — second "clean" contrast case, this time at LM/team s
 - Submitting the same (person, course) pair twice in one basket, or a course already in a prior submission → duplicate
 
 ## Blocker
-None currently — see Last session for a real bug found and fixed today.
+None. Both agents (web app + Manager Briefing CLI) verified working end-to-end as of this session.
 
 ## Last session
-2026-07-01 — Ran Stage 9 eval (all thresholds pass). Stage 10.1-10.3 done: README.md rewrite, WHY-only comments on 6 rubric files, writeup.md drafted (1,500w). Started 10.5 video prep: found the live app was 500'ing on every /api/profile call since the 8.14 deploy — VertexAiSessionService.agent_engine_id was set to the full resource path instead of the bare numeric ID, and VERTEX_AI_LOCATION was overloaded across three unrelated concerns (Cloud Run region, agent Gemini-call region, Agent Runtime API location). Fixed with a new AGENT_RUNTIME_LOCATION env var, corrected the runtime IDs, patched deploy_agents.sh's extraction so it can't regress, redeployed, verified live. Then did a browser walkthrough of Scenario 4 (role/grade mismatch, all three challenge types fired), captured as a GIF — not a substitute for the real narrated video, just reference footage. Full scenario/login reference for finishing the recording is above.
+2026-07-01 — Ran Stage 9 eval (all thresholds pass). Stage 10.1-10.3 done: README.md rewrite, WHY-only comments on 6 rubric files, writeup.md drafted (1,500w). Started 10.5 video prep and found three real bugs, all fixed and verified: (1) live app 500'd on every /api/profile call — VertexAiSessionService.agent_engine_id was the full resource path instead of the bare numeric ID, and VERTEX_AI_LOCATION was overloaded across three unrelated concerns; added AGENT_RUNTIME_LOCATION, fixed deploy_agents.sh's extraction, redeployed. (2) Manager Briefing agent crashed on every real `adk run` (not eval harness) because ADK serialises dataclass tool returns to dicts between tool calls and the dataclass type hints don't auto-reconstruct — added dict-to-dataclass coercion across the 4-hop chain. (3) even after the crash fix, the agent summarised instead of relaying the actual report text — added an explicit verbatim-relay instruction to the system prompt. Also found and fixed a real doc bug: README/writeup/video-script all cited a fabricated `adk run manager-briefing --period X --output Y` command that doesn't match real adk CLI syntax; corrected everywhere to the verified-working `adk run app/briefing "Generate a briefing report for period X"`. Did a browser walkthrough of Scenario 4, captured as a GIF (reference footage, not the real video). Wrote `PLAYTEST-SUBMITTER.md` and `PLAYTEST-MANAGER.md` with exact logins/commands for both personas.
